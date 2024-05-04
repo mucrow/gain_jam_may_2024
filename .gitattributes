@@ -1,0 +1,81 @@
+# Normalize EOL for all files that Git considers text files
+* text=auto eol=lf
+
+# Track godot binary scenes and binary resources
+*.res filter=lfs diff=lfs merge=lfs -text
+*.scn filter=lfs diff=lfs merge=lfs -text
+
+# Track archive files using LFS
+*.gz filter=lfs diff=lfs merge=lfs -text
+*.tar filter=lfs diff=lfs merge=lfs -text
+*.rar filter=lfs diff=lfs merge=lfs -text
+*.zip filter=lfs diff=lfs merge=lfs -text
+*.7z filter=lfs diff=lfs merge=lfs -text
+
+# Track audio files using LFS
+*.flac filter=lfs diff=lfs merge=lfs -text
+*.mp3 filter=lfs diff=lfs merge=lfs -text
+*.ogg filter=lfs diff=lfs merge=lfs -text
+*.wav filter=lfs diff=lfs merge=lfs -text
+
+# Track audio project files using LFS
+*.als filter=lfs diff=lfs merge=lfs -text
+*.flp filter=lfs diff=lfs merge=lfs -text
+*.it filter=lfs diff=lfs merge=lfs -text
+*.mod filter=lfs diff=lfs merge=lfs -text
+*.rpp filter=lfs diff=lfs merge=lfs -text
+*.s3m filter=lfs diff=lfs merge=lfs -text
+*.xm filter=lfs diff=lfs merge=lfs -text
+*.xrns filter=lfs diff=lfs merge=lfs -text
+*.xrni filter=lfs diff=lfs merge=lfs -text
+
+# Track executable files using LFS
+*.dll filter=lfs diff=lfs merge=lfs -text
+*.exe filter=lfs diff=lfs merge=lfs -text
+*.mdb filter=lfs diff=lfs merge=lfs -text
+*.pdb filter=lfs diff=lfs merge=lfs -text
+*.so filter=lfs diff=lfs merge=lfs -text
+
+# Track font files using LFS
+*.ttf filter=lfs diff=lfs merge=lfs -text
+
+# Track image files using LFS
+*.bmp filter=lfs diff=lfs merge=lfs -text
+*.gif filter=lfs diff=lfs merge=lfs -text
+*.jpeg filter=lfs diff=lfs merge=lfs -text
+*.jpg filter=lfs diff=lfs merge=lfs -text
+*.png filter=lfs diff=lfs merge=lfs -text
+*.tff filter=lfs diff=lfs merge=lfs -text
+*.tiff filter=lfs diff=lfs merge=lfs -text
+*.webp filter=lfs diff=lfs merge=lfs -text
+
+# Track image project files using LFS
+*.aseprite filter=lfs diff=lfs merge=lfs -text
+*.ase filter=lfs diff=lfs merge=lfs -text
+*.clip filter=lfs diff=lfs merge=lfs -text
+*.pdn filter=lfs diff=lfs merge=lfs -text
+*.psd filter=lfs diff=lfs merge=lfs -text
+
+# Track miscellaneous bulky filetypes using LFS
+*.pdf filter=lfs diff=lfs merge=lfs -text
+
+# Track video files using LFS
+*.mov filter=lfs diff=lfs merge=lfs -text
+*.mpeg filter=lfs diff=lfs merge=lfs -text
+*.mpg filter=lfs diff=lfs merge=lfs -text
+*.mp4 filter=lfs diff=lfs merge=lfs -text
+*.webm filter=lfs diff=lfs merge=lfs -text
+
+# Track 3D asset files using LFS
+*.fbx filter=lfs diff=lfs merge=lfs -text
+*.glb filter=lfs diff=lfs merge=lfs -text
+*.obj filter=lfs diff=lfs merge=lfs -text
+
+# Track 3D asset project files using LFS
+*.blend filter=lfs diff=lfs merge=lfs -text
+*.blend1 filter=lfs diff=lfs merge=lfs -text
+*.blender filter=lfs diff=lfs merge=lfs -text
+*.ma filter=lfs diff=lfs merge=lfs -text
+*.mb filter=lfs diff=lfs merge=lfs -text
+*.zbr filter=lfs diff=lfs merge=lfs -text
+*.ztl filter=lfs diff=lfs merge=lfs -text

@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://bpfmsdn2ofsdl"]
+
+[ext_resource type="Script" path="res://player.gd" id="1_nke24"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tv3u6"]
+size = Vector2(64, 64)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_t6ssn"]
+size = Vector2(1024, 16)
+
+[node name="Gameplay" type="Node2D"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+offset = Vector2(0, -192)
+
+[node name="Player" type="CharacterBody2D" parent="."]
+position = Vector2(0, -8)
+script = ExtResource("1_nke24")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+position = Vector2(0, -32)
+shape = SubResource("RectangleShape2D_tv3u6")
+debug_color = Color(1, 1, 1, 0.42)
+
+[node name="Wall" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall"]
+shape = SubResource("RectangleShape2D_t6ssn")

@@ -1,0 +1,8 @@
+# builds directory
+builds/
+
+# this directory should be ignored for any Godot 4 project
+.godot/
+
+# editor
+.vscode/
