@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://ccg3p1ooyrtxr" path="res://textures/chugos.png" id="5_ckwkk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3np1d"]
-size = Vector2(1024, 16)
+size = Vector2(4096, 16)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_t6ssn"]
 size = Vector2(250, 16)
@@ -84,21 +84,30 @@ size = Vector2(66, 61)
 
 [node name="HugDebug" type="Node2D"]
 
-[node name="Camera2D" type="Camera2D" parent="."]
-offset = Vector2(0, -192)
-
 [node name="Player" parent="." instance=ExtResource("1_e7dio")]
 position = Vector2(0, -39)
 launch_strength_y = 0.8
 
 [node name="Wall" type="StaticBody2D" parent="."]
+position = Vector2(-1360, 0)
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Wall"]
 shape = SubResource("RectangleShape2D_3np1d")
 
 [node name="Sprite2D" type="Sprite2D" parent="Wall"]
-scale = Vector2(1024, 16)
+scale = Vector2(4096, 16)
+texture = ExtResource("2_l4kaf")
+
+[node name="Wall4" type="StaticBody2D" parent="."]
+position = Vector2(2021, 127)
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall4"]
+shape = SubResource("RectangleShape2D_3np1d")
+
+[node name="Sprite2D" type="Sprite2D" parent="Wall4"]
+scale = Vector2(4096, 16)
 texture = ExtResource("2_l4kaf")
 
 [node name="Wall2" type="StaticBody2D" parent="."]
@@ -109,6 +118,17 @@ collision_mask = 0
 shape = SubResource("RectangleShape2D_t6ssn")
 
 [node name="Sprite2D" type="Sprite2D" parent="Wall2"]
+scale = Vector2(250, 16)
+texture = ExtResource("2_l4kaf")
+
+[node name="Wall3" type="StaticBody2D" parent="."]
+position = Vector2(-613, -247)
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall3"]
+shape = SubResource("RectangleShape2D_t6ssn")
+
+[node name="Sprite2D" type="Sprite2D" parent="Wall3"]
 scale = Vector2(250, 16)
 texture = ExtResource("2_l4kaf")
 
