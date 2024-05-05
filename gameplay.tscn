@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://bpfmsdn2ofsdl"]
+[gd_scene load_steps=6 format=3 uid="uid://bpfmsdn2ofsdl"]
 
 [ext_resource type="Script" path="res://player.gd" id="1_nke24"]
+[ext_resource type="Script" path="res://enemy.gd" id="2_gjppt"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tv3u6"]
 size = Vector2(64, 64)
@@ -8,21 +9,46 @@ size = Vector2(64, 64)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_t6ssn"]
 size = Vector2(1024, 16)
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_q1ck4"]
+radius = 32.0
+
 [node name="Gameplay" type="Node2D"]
 
 [node name="Camera2D" type="Camera2D" parent="."]
 offset = Vector2(0, -192)
 
 [node name="Player" type="CharacterBody2D" parent="."]
-position = Vector2(0, -8)
+position = Vector2(0, -40)
+collision_layer = 2
+collision_mask = 5
 script = ExtResource("1_nke24")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
-position = Vector2(0, -32)
 shape = SubResource("RectangleShape2D_tv3u6")
 debug_color = Color(1, 1, 1, 0.42)
 
+[node name="LaunchedStateTimer" type="Timer" parent="Player"]
+one_shot = true
+
 [node name="Wall" type="StaticBody2D" parent="."]
+collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Wall"]
 shape = SubResource("RectangleShape2D_t6ssn")
+
+[node name="Enemy" type="CharacterBody2D" parent="."]
+position = Vector2(436, -41)
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("2_gjppt")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy"]
+shape = SubResource("CircleShape2D_q1ck4")
+debug_color = Color(0.968587, 5.67943e-06, 7.70092e-07, 0.419608)
+
+[node name="TurnaroundTimer" type="Timer" parent="Enemy"]
+wait_time = 4.0
+autostart = true
+
+[connection signal="timeout" from="Player/LaunchedStateTimer" to="Player" method="end_launched_state"]
+[connection signal="timeout" from="Enemy/TurnaroundTimer" to="Enemy" method="on_turnaround_timeout"]
