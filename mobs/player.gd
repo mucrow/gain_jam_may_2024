@@ -4,6 +4,7 @@ extends CharacterBody2D
 @export var jump_velocity = -500.0
 @export var move_speed_in_air = 50.0
 @export var move_speed_on_floor = 300.0
+@export var air_deceleration = 5.0
 @export var gravity = 980.0
 
 @export var launch_strength_x: float = 1
@@ -38,11 +39,15 @@ func state_free_physics_process(dt):
     velocity.y = jump_velocity
 
   var direction = Input.get_axis("move_left", "move_right")
+  direction = sign(direction)
   var move_speed = move_speed_on_floor if is_on_floor() else move_speed_in_air
   if direction:
     velocity.x = move_toward(velocity.x, direction * move_speed_on_floor, move_speed)
-  else:
+  elif is_on_floor() or (direction and direction == sign(velocity.x)): #do an input in the air to decelerate slower
     velocity.x = move_toward(velocity.x, 0, move_speed)
+  else: #eternally applied air deceleration
+    velocity.x = move_toward(velocity.x, 0, air_deceleration)
+    pass
 
   move_and_slide()
 
