@@ -15,7 +15,6 @@ func _physics_process(delta):
 
   velocity.x = direction * move_speed
   move_and_slide()
-  
 
 
 func on_turnaround_timeout():

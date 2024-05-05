@@ -58,7 +58,7 @@ func state_free_physics_process(dt):
   for i in get_slide_collision_count():
     var collision = get_slide_collision(i)
     var collider = collision.get_collider()
-    if collider.name == 'Enemy':
+    if collider.is_in_group('enemies'):
       var launch_velocity = (position - collider.position).normalized() * 900.0
       launch_velocity = (launch_velocity.dot(Vector2.RIGHT) * launch_strength_x * Vector2.RIGHT) + (launch_velocity.dot(Vector2.UP) * launch_strength_y * Vector2.UP)
       apply_launched_state(launch_velocity, 0.5)

@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://xk7y2lg8qtcw"]
+
+[ext_resource type="PackedScene" uid="uid://1cgj7cvtll74" path="res://mobs/player.tscn" id="1_p46om"]
+[ext_resource type="PackedScene" uid="uid://c2jwlhgvglxje" path="res://mobs/garbo.tscn" id="2_dr0yk"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_t6ssn"]
+size = Vector2(1024, 16)
+
+[node name="BetoDebug" type="Node2D"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+offset = Vector2(0, -192)
+
+[node name="Player" parent="." instance=ExtResource("1_p46om")]
+
+[node name="Wall" type="StaticBody2D" parent="."]
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall"]
+shape = SubResource("RectangleShape2D_t6ssn")
+
+[node name="Garbo" parent="." instance=ExtResource("2_dr0yk")]
