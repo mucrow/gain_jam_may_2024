@@ -6,6 +6,9 @@ extends CharacterBody2D
 @export var move_speed_on_floor = 300.0
 @export var gravity = 980.0
 
+@export var launch_strength_x: float = 1
+@export var launch_strength_y: float = 1
+
 
 enum State {
   Free, Launched
@@ -57,6 +60,7 @@ func state_free_physics_process(dt):
     var collider = collision.get_collider()
     if collider.name == 'Enemy':
       var launch_velocity = (position - collider.position).normalized() * 900.0
+      launch_velocity = (launch_velocity.dot(Vector2.RIGHT) * launch_strength_x * Vector2.RIGHT) + (launch_velocity.dot(Vector2.UP) * launch_strength_y * Vector2.UP)
       apply_launched_state(launch_velocity, 0.5)
 
 
