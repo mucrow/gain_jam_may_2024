@@ -12,6 +12,7 @@ enum State {
 }
 
 @onready var launched_state_timer: Timer = $LaunchedStateTimer
+@onready var sprite: AnimatedSprite2D = $Sprite
 
 var state = State.Free
 
@@ -41,6 +42,16 @@ func state_free_physics_process(dt):
     velocity.x = move_toward(velocity.x, 0, move_speed)
 
   move_and_slide()
+
+  if abs(velocity.x) < 0.1:
+    sprite.animation = 'Idle'
+    sprite.play()
+  else:
+    sprite.flip_h = velocity.x < 0.0
+    sprite.animation = 'Run'
+    sprite.play()
+
+  # TODO let enemies handle this
   for i in get_slide_collision_count():
     var collision = get_slide_collision(i)
     var collider = collision.get_collider()
