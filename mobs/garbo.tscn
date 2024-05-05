@@ -1,8 +1,8 @@
 [gd_scene load_steps=6 format=3 uid="uid://c2jwlhgvglxje"]
 
 [ext_resource type="Script" path="res://mobs/garbo.gd" id="1_g50c3"]
-[ext_resource type="Texture2D" uid="uid://2edpeflvrsm4" path="res://assets/bug1.png" id="2_qy1gi"]
-[ext_resource type="Texture2D" uid="uid://ccnqlxl8o41mg" path="res://assets/bug2.png" id="3_54xup"]
+[ext_resource type="Texture2D" uid="uid://2edpeflvrsm4" path="res://textures/garbo_0.png" id="2_qy1gi"]
+[ext_resource type="Texture2D" uid="uid://ccnqlxl8o41mg" path="res://textures/garbo_1.png" id="3_54xup"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_q1ck4"]
 radius = 32.0

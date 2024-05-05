@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 
 @export var jump_velocity = -500.0
-@export var move_speed_in_air = 100.0
+@export var move_speed_in_air = 50.0
 @export var move_speed_on_floor = 300.0
 @export var gravity = 980.0
 

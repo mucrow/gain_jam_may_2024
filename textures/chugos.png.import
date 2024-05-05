@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://43c0sis8o11a"
-path="res://.godot/imported/player.png-2dd0af52de4b213777cd8c9df94c0978.ctex"
+uid="uid://ccg3p1ooyrtxr"
+path="res://.godot/imported/chugos.png-ae0a3c23be4631805b8808b75842a402.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://player.png"
-dest_files=["res://.godot/imported/player.png-2dd0af52de4b213777cd8c9df94c0978.ctex"]
+source_file="res://textures/chugos.png"
+dest_files=["res://.godot/imported/chugos.png-ae0a3c23be4631805b8808b75842a402.ctex"]
 
 [params]
 

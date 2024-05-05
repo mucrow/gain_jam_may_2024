@@ -13,7 +13,7 @@ config_version=5
 config/name="Gain Jam May 2024"
 run/main_scene="res://levels/beto_debug.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
-config/icon="res://100_pts_logo.png"
+config/icon="res://textures/100_pts_logo.png"
 
 [display]
 
@@ -23,6 +23,10 @@ window/vsync/vsync_mode=0
 
 import/blender/enabled=false
 import/fbx/enabled=false
+
+[gui]
+
+theme/custom_font="res://fonts/montserrat/Montserrat-VariableFont_wght.ttf"
 
 [input]
 

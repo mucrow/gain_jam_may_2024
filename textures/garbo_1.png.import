@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://ccnqlxl8o41mg"
-path="res://.godot/imported/bug2.png-8be0b4acc5909be8c14e4b2200f90343.ctex"
+path="res://.godot/imported/garbo_1.png-bf799ca003492d6e7c92f6f4e3ebf01c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/bug2.png"
-dest_files=["res://.godot/imported/bug2.png-8be0b4acc5909be8c14e4b2200f90343.ctex"]
+source_file="res://textures/garbo_1.png"
+dest_files=["res://.godot/imported/garbo_1.png-bf799ca003492d6e7c92f6f4e3ebf01c.ctex"]
 
 [params]
 
