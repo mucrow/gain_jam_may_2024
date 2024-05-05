@@ -1,25 +1,66 @@
 extends CharacterBody2D
 
 
-@export var jump_velocity = -400.0
-@export var move_speed = 300.0
+@export var jump_velocity = -500.0
+@export var move_speed_in_air = 100.0
+@export var move_speed_on_floor = 300.0
 @export var gravity = 980.0
 
 
-func _physics_process(delta):
-  # Add the gravity.
-  if not is_on_floor():
-    velocity.y += gravity * delta
+enum State {
+  Free, Launched
+}
 
-  # Handle jump.
+@onready var launched_state_timer: Timer = $LaunchedStateTimer
+
+var state = State.Free
+
+
+func _physics_process(dt):
+  if state == State.Free:
+    state_free_physics_process(dt)
+  elif state == State.Launched:
+    state_launched_physics_process(dt)
+  else:
+    push_warning('unhandled state %s' % state)
+    state = State.Free
+
+
+func state_free_physics_process(dt):
+  if not is_on_floor():
+    velocity.y += gravity * dt
+
   if Input.is_action_just_pressed("jump") and is_on_floor():
     velocity.y = jump_velocity
 
-  # Get the input direction and handle the movement/deceleration.
   var direction = Input.get_axis("move_left", "move_right")
+  var move_speed = move_speed_on_floor if is_on_floor() else move_speed_in_air
   if direction:
-    velocity.x = direction * move_speed
+    velocity.x = move_toward(velocity.x, direction * move_speed_on_floor, move_speed)
   else:
     velocity.x = move_toward(velocity.x, 0, move_speed)
 
   move_and_slide()
+  for i in get_slide_collision_count():
+    var collision = get_slide_collision(i)
+    var collider = collision.get_collider()
+    if collider.name == 'Enemy':
+      var launch_velocity = (position - collider.position).normalized() * 800.0
+      apply_launched_state(launch_velocity, 0.75)
+
+
+func state_launched_physics_process(dt):
+  if not is_on_floor():
+    velocity.y += gravity * dt
+  move_and_slide()
+
+
+func apply_launched_state(new_velocity: Vector2, duration: float):
+  velocity = new_velocity
+  state = State.Launched
+  launched_state_timer.wait_time = duration
+  launched_state_timer.start()
+
+
+func end_launched_state():
+  state = State.Free
