@@ -11,9 +11,6 @@ class_name Player
 @export var gravity = 980.0
 @export var walljump_strength = 400
 
-@export var launch_strength_x: float = 1
-@export var launch_strength_y: float = 0.6
-
 
 enum State {
   Free, Launched
