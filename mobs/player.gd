@@ -1,4 +1,5 @@
 extends CharacterBody2D
+class_name Player
 
 
 @export var jump_velocity = -500.0
@@ -11,7 +12,7 @@ extends CharacterBody2D
 @export var walljump_strength = 400
 
 @export var launch_strength_x: float = 1
-@export var launch_strength_y: float = 1
+@export var launch_strength_y: float = 0.6
 
 
 enum State {
@@ -32,10 +33,10 @@ func _physics_process(dt):
     walltouch_velocity = get_last_slide_collision().get_travel() * 400 + get_last_slide_collision().get_remainder() * 400
     print("storing wallhit velocity")
     print(walltouch_velocity)
-    
+
   if not is_on_wall_only():
     justtouchedwall = false
-  
+
   if state == State.Free:
     state_free_physics_process(dt)
   elif state == State.Launched:
@@ -43,7 +44,7 @@ func _physics_process(dt):
   else:
     push_warning('unhandled state %s' % state)
     state = State.Free
-  
+
 
 
 func state_free_physics_process(dt):
@@ -81,19 +82,18 @@ func state_free_physics_process(dt):
     var collision = get_slide_collision(i)
     var collider = collision.get_collider()
     if collider.is_in_group('enemies'):
-      var launch_velocity = (position - collider.position).normalized() * 900.0
-      launch_velocity = (launch_velocity.dot(Vector2.RIGHT) * launch_strength_x * Vector2.RIGHT) + (launch_velocity.dot(Vector2.UP) * launch_strength_y * Vector2.UP)
-      apply_launched_state(launch_velocity, 0.5)
+      if collider.has_method('on_collision_with_player'):
+        collider.on_collision_with_player(self)
 
 
 func state_launched_physics_process(dt):
   if not is_on_floor():
     velocity.y += gravity * dt
-    
+
   if Input.is_action_just_pressed("jump"):
     if is_on_wall_only():
       apply_walljump()
-    
+
   move_and_slide()
 
 
@@ -103,13 +103,15 @@ func apply_launched_state(new_velocity: Vector2, duration: float):
   launched_state_timer.wait_time = duration
   launched_state_timer.start()
 
+
 func end_launched_state():
   state = State.Free
-  
+
+
 func apply_walljump():
     var min_launch_velocity = (get_wall_normal() + Vector2.UP) * walljump_strength
     var launch_velocity = min_launch_velocity
     velocity.y = 0
-    
+
     apply_launched_state(launch_velocity, 0.5)
     walltouch_velocity = Vector2.ZERO

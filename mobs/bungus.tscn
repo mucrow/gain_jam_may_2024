@@ -1,0 +1,55 @@
+[gd_scene load_steps=7 format=3 uid="uid://d2r3s38ecn1hh"]
+
+[ext_resource type="Texture2D" uid="uid://cwdwlgudqhog1" path="res://textures/bungus.png" id="1_l80dp"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a6wyo"]
+atlas = ExtResource("1_l80dp")
+region = Rect2(40, 0, 40, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_03n3a"]
+atlas = ExtResource("1_l80dp")
+region = Rect2(0, 0, 40, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kkd43"]
+atlas = ExtResource("1_l80dp")
+region = Rect2(40, 0, 40, 40)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_tpqnx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a6wyo")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_03n3a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kkd43")
+}],
+"loop": true,
+"name": &"run",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_esgjg"]
+radius = 9.0
+height = 22.0
+
+[node name="Bungus" type="CharacterBody2D" groups=["enemies"]]
+texture_filter = 1
+position = Vector2(-251, -129)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(-1, -9)
+sprite_frames = SubResource("SpriteFrames_tpqnx")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_esgjg")

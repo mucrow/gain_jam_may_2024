@@ -1,0 +1,49 @@
+[gd_scene load_steps=6 format=3 uid="uid://cveldpnbaoear"]
+
+[ext_resource type="Texture2D" uid="uid://ccg3p1ooyrtxr" path="res://textures/chugos.png" id="1_83rwv"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lmqsx"]
+atlas = ExtResource("1_83rwv")
+region = Rect2(40, 0, 40, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x7uf8"]
+atlas = ExtResource("1_83rwv")
+region = Rect2(0, 0, 40, 40)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ktxwg"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lmqsx")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x7uf8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lmqsx")
+}],
+"loop": true,
+"name": &"run",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3tq8x"]
+size = Vector2(34, 36)
+
+[node name="Chugos" type="CharacterBody2D" groups=["enemies"]]
+texture_filter = 1
+position = Vector2(-296, -139)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_ktxwg")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1, 1)
+shape = SubResource("RectangleShape2D_3tq8x")
