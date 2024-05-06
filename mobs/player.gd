@@ -10,6 +10,7 @@ class_name Player
 @export var deceleration_air = 0.0
 @export var gravity = 980.0
 @export var walljump_strength = 400
+@export var walljump_max_distance = 30
 
 
 enum State {
@@ -51,8 +52,10 @@ func state_free_physics_process(dt):
   if Input.is_action_just_pressed("jump"):
     if is_on_floor():
       velocity.y = jump_velocity
-    elif is_on_wall_only():
-      apply_walljump()
+    else:
+      var canwalljump = can_walljump()
+      if canwalljump:
+        apply_walljump(canwalljump)
 
   var direction = Input.get_axis("move_left", "move_right")
   direction = sign(direction)
@@ -88,8 +91,9 @@ func state_launched_physics_process(dt):
     velocity.y += gravity * dt
 
   if Input.is_action_just_pressed("jump"):
-    if is_on_wall_only():
-      apply_walljump()
+    var canwalljump = can_walljump()
+    if canwalljump:
+      apply_walljump(canwalljump)
 
   move_and_slide()
 
@@ -103,10 +107,31 @@ func apply_launched_state(new_velocity: Vector2, duration: float):
 
 func end_launched_state():
   state = State.Free
+  
+  
+# returns -1 if can walljump off left wall, 1 if off right wall, 0 if can't walljump
+func can_walljump():
+    var space_state = get_world_2d().direct_space_state
+    var left_query = PhysicsRayQueryParameters2D.create(position, position - Vector2(walljump_max_distance, 0))
+    left_query.exclude = [self]
+    var left_result = space_state.intersect_ray(left_query)
+    if left_result:
+      var collider = left_result["collider"]
+      if collider.is_in_group("wall"):
+        return -1
+        
+    var right_query = PhysicsRayQueryParameters2D.create(position, position + Vector2(walljump_max_distance, 0))
+    right_query.exclude = [self]
+    var right_result = space_state.intersect_ray(right_query)
+    if right_result:
+      var collider = right_result["collider"]
+      if collider.is_in_group("wall"):
+        return 1
+    
+    return 0
 
-
-func apply_walljump():
-    var min_launch_velocity = (get_wall_normal() + Vector2.UP) * walljump_strength
+func apply_walljump(dir):
+    var min_launch_velocity = (dir * Vector2.LEFT + Vector2.UP) * walljump_strength
     var launch_velocity = min_launch_velocity
     velocity.y = 0
 
