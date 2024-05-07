@@ -49,14 +49,6 @@ func state_free_physics_process(dt):
   if not is_on_floor():
     velocity.y += gravity * dt
 
-  if Input.is_action_just_pressed("jump"):
-    if is_on_floor():
-      velocity.y = jump_velocity
-    else:
-      var canwalljump = can_walljump()
-      if canwalljump:
-        apply_walljump(canwalljump)
-
   var direction = Input.get_axis("move_left", "move_right")
   direction = sign(direction)
   var move_speed = move_speed_on_floor if is_on_floor() else move_speed_in_air
@@ -66,6 +58,14 @@ func state_free_physics_process(dt):
     velocity.x = move_toward(velocity.x, 0, deceleration_floor)
   else: #eternally applied air deceleration
     velocity.x = move_toward(velocity.x, 0, deceleration_air)
+
+  if Input.is_action_just_pressed("jump"):
+    if is_on_floor():
+      velocity.y = jump_velocity
+    else:
+      var canwalljump = can_walljump()
+      if canwalljump:
+        apply_walljump(canwalljump)
 
   move_and_slide()
 
