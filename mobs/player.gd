@@ -25,6 +25,7 @@ var state = State.Free
 var walltouch_velocity: Vector2
 var justtouchedwall: bool = false
 
+
 func _physics_process(dt):
   if not justtouchedwall and is_on_wall_only():
     justtouchedwall = true
@@ -42,7 +43,6 @@ func _physics_process(dt):
   else:
     push_warning('unhandled state %s' % state)
     state = State.Free
-
 
 
 func state_free_physics_process(dt):
@@ -77,7 +77,6 @@ func state_free_physics_process(dt):
     sprite.animation = 'Run'
     sprite.play()
 
-  # TODO let enemies handle this
   for i in get_slide_collision_count():
     var collision = get_slide_collision(i)
     var collider = collision.get_collider()
@@ -107,8 +106,8 @@ func apply_launched_state(new_velocity: Vector2, duration: float):
 
 func end_launched_state():
   state = State.Free
-  
-  
+
+
 # returns -1 if can walljump off left wall, 1 if off right wall, 0 if can't walljump
 func can_walljump():
     var space_state = get_world_2d().direct_space_state
@@ -119,7 +118,7 @@ func can_walljump():
       var collider = left_result["collider"]
       if collider.is_in_group("wall"):
         return -1
-        
+
     var right_query = PhysicsRayQueryParameters2D.create(position, position + Vector2(walljump_max_distance, 0))
     right_query.exclude = [self]
     var right_result = space_state.intersect_ray(right_query)
@@ -127,8 +126,9 @@ func can_walljump():
       var collider = right_result["collider"]
       if collider.is_in_group("wall"):
         return 1
-    
+
     return 0
+
 
 func apply_walljump(dir):
     var min_launch_velocity = (dir * Vector2.LEFT + Vector2.UP) * walljump_strength
