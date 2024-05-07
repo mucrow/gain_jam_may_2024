@@ -99,9 +99,10 @@ func state_launched_physics_process(dt):
 
 func apply_launched_state(new_velocity: Vector2, duration: float):
   velocity = new_velocity
-  state = State.Launched
-  launched_state_timer.wait_time = duration
-  launched_state_timer.start()
+  if duration > 0.0001:
+    state = State.Launched
+    launched_state_timer.wait_time = duration
+    launched_state_timer.start()
 
 
 func end_launched_state():
