@@ -31,4 +31,4 @@ func on_turnaround_timeout():
 func on_collision_with_player(player: Player):
   var launch_velocity = (player.position - position).normalized() * launch_speed
   launch_velocity = (launch_velocity.dot(Vector2.RIGHT) * launch_strength_x * Vector2.RIGHT) + (launch_velocity.dot(Vector2.UP) * launch_strength_y * Vector2.UP)
-  player.apply_launched_state(launch_velocity, 0.5)
+  player.apply_launched_state(launch_velocity, 0.4)

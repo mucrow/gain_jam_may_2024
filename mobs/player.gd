@@ -135,5 +135,5 @@ func apply_walljump(dir):
     var launch_velocity = min_launch_velocity
     velocity.y = 0
 
-    apply_launched_state(launch_velocity, 0.5)
+    apply_launched_state(launch_velocity, 0.4)
     walltouch_velocity = Vector2.ZERO
