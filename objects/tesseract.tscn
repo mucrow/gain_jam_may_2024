@@ -1,0 +1,60 @@
+[gd_scene load_steps=10 format=3 uid="uid://bq85l7djgqj8o"]
+
+[ext_resource type="Script" path="res://objects/tesseract.gd" id="1_eqy4u"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5tfro"]
+size = Vector2(16, 24)
+
+[sub_resource type="Gradient" id="Gradient_hhnof"]
+colors = PackedColorArray(0, 0.0705882, 0, 1, 0.966667, 1, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_hmh1b"]
+gradient = SubResource("Gradient_hhnof")
+width = 8
+height = 8
+
+[sub_resource type="Curve" id="Curve_rmg0j"]
+_data = [Vector2(0.0126582, 0.978022), 0.0, 0.0515722, 0, 0, Vector2(1, 0), -2.84115, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_gdkx6"]
+curve = SubResource("Curve_rmg0j")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_j6kru"]
+particle_flag_disable_z = true
+direction = Vector3(0, 1, 0)
+initial_velocity_min = 10.0
+initial_velocity_max = 20.0
+gravity = Vector3(0, -30, 0)
+alpha_curve = SubResource("CurveTexture_gdkx6")
+hue_variation_max = 0.03
+
+[sub_resource type="Gradient" id="Gradient_r45hh"]
+offsets = PackedFloat32Array(0, 0.522822, 0.526971, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 1, 0.858824, 1, 0.4, 1, 0.86, 1, 0.4, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_3cfiq"]
+gradient = SubResource("Gradient_r45hh")
+width = 4
+height = 4
+
+[node name="Tesseract" type="Area2D"]
+position = Vector2(415, -398)
+script = ExtResource("1_eqy4u")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_5tfro")
+
+[node name="SpriteAnchor" type="Node2D" parent="."]
+
+[node name="Sprite" type="Sprite2D" parent="SpriteAnchor"]
+texture_filter = 1
+scale = Vector2(2, 2)
+texture = SubResource("GradientTexture2D_hmh1b")
+
+[node name="Emitter" type="GPUParticles2D" parent="SpriteAnchor"]
+texture_filter = 1
+amount = 3
+process_material = SubResource("ParticleProcessMaterial_j6kru")
+texture = SubResource("GradientTexture2D_3cfiq")
+lifetime = 2.0
