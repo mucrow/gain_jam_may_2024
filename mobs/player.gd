@@ -5,13 +5,14 @@ class_name Player
 @export var jump_velocity = -500.0
 @export var move_speed_in_air = 50.0
 @export var move_speed_on_floor = 300.0
-@export var max_speed = 300
+@export var max_run_speed = 300.0
 @export var deceleration_floor = 300.0
 @export var deceleration_air = 0.0
 @export var gravity = 980.0
 @export var walljump_strength = 400
 @export var walljump_max_distance = 30
-@export var dash_velocity = 1100.0
+@export var dash_velocity = 800.0
+@export var max_speed = 1100.0
 
 
 enum State {
@@ -24,7 +25,7 @@ enum State {
 
 var state = State.Free
 
-var can_dash: bool = true
+var in_dash_cooldown: bool = false
 var walltouch_velocity: Vector2
 var justtouchedwall: bool = false
 
@@ -42,15 +43,18 @@ func _physics_process(dt):
 func state_free_physics_process(dt):
   check_walltouch()
 
-  if not is_on_floor():
-    velocity.y += gravity * dt
+  apply_gravity(dt)
 
   var direction = Input.get_axis("move_left", "move_right")
   direction = sign(direction)
   var move_speed = move_speed_on_floor if is_on_floor() else move_speed_in_air
+  var current_max_speed = max_run_speed
+  if abs(sign(velocity.x) - direction) < 0.0001:
+    current_max_speed = max(abs(velocity.x), max_run_speed)
+  current_max_speed = min(current_max_speed, max_speed)
   if direction:
-    velocity.x = move_toward(velocity.x, direction * max_speed, move_speed)
-  elif is_on_floor() or (abs(velocity.x) <= max_speed): #do an input in the air to decelerate slower
+    velocity.x = move_toward(velocity.x, direction * current_max_speed, move_speed)
+  elif is_on_floor() or (abs(velocity.x) <= max_run_speed): #do an input in the air to decelerate slower
     velocity.x = move_toward(velocity.x, 0, deceleration_floor)
   else: #eternally applied air deceleration
     velocity.x = move_toward(velocity.x, 0, deceleration_air)
@@ -63,7 +67,7 @@ func state_free_physics_process(dt):
       if canwalljump:
         apply_walljump(canwalljump)
 
-  if Input.is_action_just_pressed("dash"):
+  if Input.is_action_just_pressed("dash") and not in_dash_cooldown:
     if direction != 0:
       apply_dash(direction)
     else:
@@ -71,7 +75,9 @@ func state_free_physics_process(dt):
 
   move_and_slide()
 
-  if abs(velocity.x) < 0.1:
+  if in_dash_cooldown:
+    pass
+  elif abs(velocity.x) < 0.1:
     sprite.animation = 'Idle'
     sprite.play()
   else:
@@ -90,8 +96,7 @@ func state_free_physics_process(dt):
 func state_launched_physics_process(dt):
   check_walltouch()
 
-  if not is_on_floor():
-    velocity.y += gravity * dt
+  apply_gravity(dt)
 
   if Input.is_action_just_pressed("jump"):
     var canwalljump = can_walljump()
@@ -99,6 +104,11 @@ func state_launched_physics_process(dt):
       apply_walljump(canwalljump)
 
   move_and_slide()
+
+
+func apply_gravity(dt):
+  if not is_on_floor() and not in_dash_cooldown:
+    velocity.y += gravity * dt
 
 
 func check_walltouch():
@@ -112,25 +122,31 @@ func check_walltouch():
     justtouchedwall = false
 
 
-func apply_launched_state(new_velocity: Vector2, duration: float):
+func apply_launch(new_velocity: Vector2, duration: float):
   velocity = new_velocity
   if duration > 0.0001:
+    sprite.modulate = Color(1, 0.5, 0.5)
     state = State.Launched
     launched_state_timer.wait_time = duration
     launched_state_timer.start()
 
 
 func apply_dash(direction: float):
+  sprite.flip_h = direction < 0.0
+  sprite.animation = 'Dash'
+  sprite.play()
+  velocity.y = 0.0
   velocity.x += direction * dash_velocity
-  can_dash = false
+  in_dash_cooldown = true
   dash_cooldown_timer.start()
 
 
 func restore_dash():
-  can_dash = true
+  in_dash_cooldown = false
 
 
 func end_launched_state():
+  sprite.modulate = Color.WHITE
   state = State.Free
 
 
@@ -161,9 +177,6 @@ func apply_walljump(dir):
     var launch_velocity = min_launch_velocity
     velocity.y = 0
 
-    apply_launched_state(launch_velocity, 0.4)
+    apply_launch(launch_velocity, 0.0)
     walltouch_velocity = Vector2.ZERO
 
-
-func _on_dash_cooldown_timer_timeout():
-  pass # Replace with function body.

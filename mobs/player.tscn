@@ -73,7 +73,7 @@ shape = SubResource("RectangleShape2D_bc0qp")
 debug_color = Color(1, 1, 1, 0)
 
 [node name="DashCooldownTimer" type="Timer" parent="."]
-wait_time = 0.4
+wait_time = 0.3
 
 [node name="LaunchedStateTimer" type="Timer" parent="."]
 one_shot = true
