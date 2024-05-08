@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://xk7y2lg8qtcw"]
+[gd_scene load_steps=7 format=3 uid="uid://xk7y2lg8qtcw"]
 
 [ext_resource type="PackedScene" uid="uid://1cgj7cvtll74" path="res://mobs/player.tscn" id="1_p46om"]
 [ext_resource type="PackedScene" uid="uid://c2jwlhgvglxje" path="res://mobs/garbo.tscn" id="2_dr0yk"]
 [ext_resource type="Texture2D" uid="uid://dbfa0iu0bvyfk" path="res://textures/placeholder.png" id="2_gdy6y"]
+[ext_resource type="PackedScene" uid="uid://bq85l7djgqj8o" path="res://objects/tesseract.tscn" id="4_7nttd"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_natb8"]
 size = Vector2(1024, 16)
@@ -75,3 +76,6 @@ shape = SubResource("RectangleShape2D_t58yj")
 [node name="Sprite2D" type="Sprite2D" parent="Wall3"]
 scale = Vector2(20, 1024)
 texture = ExtResource("2_gdy6y")
+
+[node name="Tesseract" parent="." instance=ExtResource("4_7nttd")]
+position = Vector2(404, -41)

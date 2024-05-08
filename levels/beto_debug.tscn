@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://dt1sleoeahxua"]
+[gd_scene load_steps=6 format=3 uid="uid://dt1sleoeahxua"]
 
 [ext_resource type="PackedScene" uid="uid://1cgj7cvtll74" path="res://mobs/player.tscn" id="1_l3mua"]
 [ext_resource type="Texture2D" uid="uid://dbfa0iu0bvyfk" path="res://textures/placeholder.png" id="2_4jmwd"]
 [ext_resource type="PackedScene" uid="uid://c2jwlhgvglxje" path="res://mobs/garbo.tscn" id="3_28ak6"]
+[ext_resource type="PackedScene" uid="uid://bq85l7djgqj8o" path="res://objects/tesseract.tscn" id="4_s702q"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4c0hl"]
 size = Vector2(1024, 16)
@@ -31,3 +32,6 @@ offset_right = -33.0
 offset_bottom = -279.0
 theme_override_font_sizes/font_size = 34
 text = "Beto Zone"
+
+[node name="Tesseract" parent="." instance=ExtResource("4_s702q")]
+position = Vector2(-353, -35)
