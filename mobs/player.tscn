@@ -72,7 +72,11 @@ position = Vector2(-0.5, 0.5)
 shape = SubResource("RectangleShape2D_bc0qp")
 debug_color = Color(1, 1, 1, 0)
 
+[node name="DashCooldownTimer" type="Timer" parent="."]
+wait_time = 0.4
+
 [node name="LaunchedStateTimer" type="Timer" parent="."]
 one_shot = true
 
+[connection signal="timeout" from="DashCooldownTimer" to="." method="restore_dash"]
 [connection signal="timeout" from="LaunchedStateTimer" to="." method="end_launched_state"]

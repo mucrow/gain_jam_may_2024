@@ -11,17 +11,20 @@ class_name Player
 @export var gravity = 980.0
 @export var walljump_strength = 400
 @export var walljump_max_distance = 30
+@export var dash_velocity = 1100.0
 
 
 enum State {
   Free, Launched
 }
 
+@onready var dash_cooldown_timer: Timer = $DashCooldownTimer
 @onready var launched_state_timer: Timer = $LaunchedStateTimer
 @onready var sprite: AnimatedSprite2D = $Sprite
 
 var state = State.Free
 
+var can_dash: bool = true
 var walltouch_velocity: Vector2
 var justtouchedwall: bool = false
 
@@ -59,6 +62,12 @@ func state_free_physics_process(dt):
       var canwalljump = can_walljump()
       if canwalljump:
         apply_walljump(canwalljump)
+
+  if Input.is_action_just_pressed("dash"):
+    if direction != 0:
+      apply_dash(direction)
+    else:
+      apply_dash(-1.0 if sprite.flip_h else 1.0)
 
   move_and_slide()
 
@@ -111,6 +120,16 @@ func apply_launched_state(new_velocity: Vector2, duration: float):
     launched_state_timer.start()
 
 
+func apply_dash(direction: float):
+  velocity.x += direction * dash_velocity
+  can_dash = false
+  dash_cooldown_timer.start()
+
+
+func restore_dash():
+  can_dash = true
+
+
 func end_launched_state():
   state = State.Free
 
@@ -144,3 +163,7 @@ func apply_walljump(dir):
 
     apply_launched_state(launch_velocity, 0.4)
     walltouch_velocity = Vector2.ZERO
+
+
+func _on_dash_cooldown_timer_timeout():
+  pass # Replace with function body.
