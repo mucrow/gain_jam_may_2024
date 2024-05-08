@@ -7,6 +7,7 @@ class_name Player
 @export var move_speed_on_floor = 300.0
 @export var max_run_speed = 300.0
 @export var deceleration_floor = 300.0
+@export var deceleration_floor_launched = 20
 @export var deceleration_air = 0.0
 @export var gravity = 980.0
 @export var walljump_strength = 400
@@ -105,6 +106,9 @@ func state_launched_physics_process(dt):
     var canwalljump = can_walljump()
     if canwalljump:
       apply_walljump(canwalljump)
+      
+  if is_on_floor():
+    velocity.x = move_toward(velocity.x, 0, deceleration_floor_launched)
 
   move_and_slide()
 
