@@ -183,3 +183,4 @@ text = "weed friendly apartment"
 position = Vector2(-287, -139)
 
 [node name="Tesseract" parent="." instance=ExtResource("6_ot3xq")]
+position = Vector2(416, -404)

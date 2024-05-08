@@ -1,6 +1,7 @@
-[gd_scene load_steps=10 format=3 uid="uid://bq85l7djgqj8o"]
+[gd_scene load_steps=11 format=3 uid="uid://bq85l7djgqj8o"]
 
 [ext_resource type="Script" path="res://objects/tesseract.gd" id="1_eqy4u"]
+[ext_resource type="AudioStream" uid="uid://yawacxs7rm58" path="res://sound_effects/collect_tesseract.ogg" id="2_52pai"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5tfro"]
 size = Vector2(16, 24)
@@ -39,11 +40,15 @@ width = 4
 height = 4
 
 [node name="Tesseract" type="Area2D"]
-position = Vector2(415, -398)
+collision_layer = 0
+collision_mask = 2
 script = ExtResource("1_eqy4u")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_5tfro")
+
+[node name="SoundEffect" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_52pai")
 
 [node name="SpriteAnchor" type="Node2D" parent="."]
 
@@ -58,3 +63,5 @@ amount = 3
 process_material = SubResource("ParticleProcessMaterial_j6kru")
 texture = SubResource("GradientTexture2D_3cfiq")
 lifetime = 2.0
+
+[connection signal="body_entered" from="." to="." method="on_body_entered"]
