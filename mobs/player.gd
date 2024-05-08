@@ -125,7 +125,7 @@ func check_walltouch():
 func apply_launch(new_velocity: Vector2, duration: float):
   velocity = new_velocity
   if duration > 0.0001:
-    sprite.modulate = Color(1, 0.5, 0.5)
+    sprite.modulate = Color(1, 0.25, 0.25)
     state = State.Launched
     launched_state_timer.wait_time = duration
     launched_state_timer.start()
@@ -179,4 +179,3 @@ func apply_walljump(dir):
 
     apply_launch(launch_velocity, 0.0)
     walltouch_velocity = Vector2.ZERO
-

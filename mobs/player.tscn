@@ -1,7 +1,15 @@
-[gd_scene load_steps=9 format=3 uid="uid://1cgj7cvtll74"]
+[gd_scene load_steps=11 format=3 uid="uid://1cgj7cvtll74"]
 
 [ext_resource type="Script" path="res://mobs/player.gd" id="1_cx0sq"]
 [ext_resource type="Texture2D" uid="uid://43c0sis8o11a" path="res://textures/player.png" id="2_3sgba"]
+
+[sub_resource type="Gradient" id="Gradient_ojr5d"]
+colors = PackedColorArray(0, 0, 0, 1, 0, 0.14902, 0.172549, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_xq6u8"]
+gradient = SubResource("Gradient_ojr5d")
+width = 128
+height = 128
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_yolg3"]
 atlas = ExtResource("2_3sgba")
@@ -60,6 +68,13 @@ script = ExtResource("1_cx0sq")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(0, -96)
+
+[node name="Sprite2D" type="Sprite2D" parent="Camera2D"]
+visible = false
+z_index = -200
+rotation = 4.71239
+scale = Vector2(5.5, 10)
+texture = SubResource("GradientTexture2D_xq6u8")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 texture_filter = 1

@@ -27,6 +27,9 @@ size = Vector2(16, 100)
 [node name="Player" parent="." instance=ExtResource("1_e7dio")]
 position = Vector2(0, -27)
 
+[node name="Sprite2D" parent="Player/Camera2D" index="0"]
+visible = true
+
 [node name="Wall" type="StaticBody2D" parent="."]
 position = Vector2(-1360, 0)
 collision_mask = 0
@@ -162,6 +165,7 @@ texture = ExtResource("2_l4kaf")
 [node name="Garbo" parent="." instance=ExtResource("2_rh2jd")]
 
 [node name="Sign" type="Label" parent="."]
+z_index = -100
 offset_left = 84.0
 offset_top = -254.0
 offset_right = 450.0
@@ -176,3 +180,5 @@ position = Vector2(-287, -139)
 
 [node name="Tesseract" parent="." instance=ExtResource("6_ot3xq")]
 position = Vector2(579, -404)
+
+[editable path="Player"]
