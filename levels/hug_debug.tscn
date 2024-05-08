@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://chydcshg8hbv4"]
+[gd_scene load_steps=12 format=3 uid="uid://chydcshg8hbv4"]
 
 [ext_resource type="PackedScene" uid="uid://1cgj7cvtll74" path="res://mobs/player.tscn" id="1_e7dio"]
 [ext_resource type="Texture2D" uid="uid://dbfa0iu0bvyfk" path="res://textures/placeholder.png" id="2_l4kaf"]
@@ -12,6 +12,9 @@ size = Vector2(4096, 16)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_t6ssn"]
 size = Vector2(250, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nxrmt"]
+size = Vector2(900, 16)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s8ibt"]
 size = Vector2(16, 600)
@@ -80,18 +83,18 @@ scale = Vector2(250, 16)
 texture = ExtResource("2_l4kaf")
 
 [node name="Wall8" type="StaticBody2D" parent="."]
-position = Vector2(66, -697)
+position = Vector2(406, -697)
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Wall8"]
-shape = SubResource("RectangleShape2D_t6ssn")
+shape = SubResource("RectangleShape2D_nxrmt")
 
 [node name="Sprite2D" type="Sprite2D" parent="Wall8"]
-scale = Vector2(250, 16)
+scale = Vector2(900, 16)
 texture = ExtResource("2_l4kaf")
 
 [node name="Wall11" type="StaticBody2D" parent="."]
-position = Vector2(160, -520)
+position = Vector2(323, -520)
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Wall11"]
@@ -102,7 +105,7 @@ scale = Vector2(250, 16)
 texture = ExtResource("2_l4kaf")
 
 [node name="Wall12" type="StaticBody2D" parent="."]
-position = Vector2(416, -369)
+position = Vector2(579, -369)
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Wall12"]
@@ -146,7 +149,7 @@ scale = Vector2(16, 600)
 texture = ExtResource("2_l4kaf")
 
 [node name="Wall9" type="StaticBody2D" parent="." groups=["wall"]]
-position = Vector2(43, -578)
+position = Vector2(206, -578)
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Wall9"]
@@ -157,7 +160,7 @@ scale = Vector2(16, 100)
 texture = ExtResource("2_l4kaf")
 
 [node name="Wall10" type="StaticBody2D" parent="." groups=["wall"]]
-position = Vector2(172, -639)
+position = Vector2(335, -639)
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Wall10"]
@@ -183,4 +186,4 @@ text = "weed friendly apartment"
 position = Vector2(-287, -139)
 
 [node name="Tesseract" parent="." instance=ExtResource("6_ot3xq")]
-position = Vector2(416, -404)
+position = Vector2(579, -404)
