@@ -30,8 +30,8 @@ func _physics_process(dt):
   if not justtouchedwall and is_on_wall_only():
     justtouchedwall = true
     walltouch_velocity = get_last_slide_collision().get_travel() * 400 + get_last_slide_collision().get_remainder() * 400
-    print("storing wallhit velocity")
-    print(walltouch_velocity)
+    # print("storing wallhit velocity")
+    # print(walltouch_velocity)
 
   if not is_on_wall_only():
     justtouchedwall = false
