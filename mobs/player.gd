@@ -27,15 +27,6 @@ var justtouchedwall: bool = false
 
 
 func _physics_process(dt):
-  if not justtouchedwall and is_on_wall_only():
-    justtouchedwall = true
-    walltouch_velocity = get_last_slide_collision().get_travel() * 400 + get_last_slide_collision().get_remainder() * 400
-    # print("storing wallhit velocity")
-    # print(walltouch_velocity)
-
-  if not is_on_wall_only():
-    justtouchedwall = false
-
   if state == State.Free:
     state_free_physics_process(dt)
   elif state == State.Launched:
@@ -46,6 +37,8 @@ func _physics_process(dt):
 
 
 func state_free_physics_process(dt):
+  check_walltouch()
+
   if not is_on_floor():
     velocity.y += gravity * dt
 
@@ -86,6 +79,8 @@ func state_free_physics_process(dt):
 
 
 func state_launched_physics_process(dt):
+  check_walltouch()
+
   if not is_on_floor():
     velocity.y += gravity * dt
 
@@ -95,6 +90,17 @@ func state_launched_physics_process(dt):
       apply_walljump(canwalljump)
 
   move_and_slide()
+
+
+func check_walltouch():
+  if not justtouchedwall and is_on_wall_only():
+    justtouchedwall = true
+    walltouch_velocity = get_last_slide_collision().get_travel() * 400 + get_last_slide_collision().get_remainder() * 400
+    # print("storing wallhit velocity")
+    # print(walltouch_velocity)
+
+  if not is_on_wall_only():
+    justtouchedwall = false
 
 
 func apply_launched_state(new_velocity: Vector2, duration: float):
