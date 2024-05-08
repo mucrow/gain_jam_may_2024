@@ -9,9 +9,6 @@ size = Vector2(1024, 16)
 
 [node name="BetoDebug" type="Node2D"]
 
-[node name="Camera2D" type="Camera2D" parent="."]
-offset = Vector2(0, -192)
-
 [node name="Player" parent="." instance=ExtResource("1_l3mua")]
 
 [node name="Wall" type="StaticBody2D" parent="."]
@@ -27,6 +24,7 @@ texture = ExtResource("2_4jmwd")
 [node name="Garbo" parent="." instance=ExtResource("3_28ak6")]
 
 [node name="Sign" type="Label" parent="."]
+z_index = -100
 offset_left = -206.0
 offset_top = -321.0
 offset_right = -33.0
