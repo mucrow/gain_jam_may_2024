@@ -1,7 +1,7 @@
-[gd_scene load_steps=11 format=3 uid="uid://1cgj7cvtll74"]
+[gd_scene load_steps=6 format=3 uid="uid://1cgj7cvtll74"]
 
 [ext_resource type="Script" path="res://mobs/player.gd" id="1_cx0sq"]
-[ext_resource type="Texture2D" uid="uid://43c0sis8o11a" path="res://textures/player.png" id="2_3sgba"]
+[ext_resource type="SpriteFrames" uid="uid://chj1k0qdlak8f" path="res://player.tres" id="2_mmbyv"]
 
 [sub_resource type="Gradient" id="Gradient_ojr5d"]
 colors = PackedColorArray(0, 0, 0, 1, 0, 0.14902, 0.172549, 1)
@@ -10,52 +10,6 @@ colors = PackedColorArray(0, 0, 0, 1, 0, 0.14902, 0.172549, 1)
 gradient = SubResource("Gradient_ojr5d")
 width = 128
 height = 128
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_yolg3"]
-atlas = ExtResource("2_3sgba")
-region = Rect2(120, 0, 40, 40)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ku2bm"]
-atlas = ExtResource("2_3sgba")
-region = Rect2(0, 0, 40, 40)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_1dwr8"]
-atlas = ExtResource("2_3sgba")
-region = Rect2(40, 0, 40, 40)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_0h3c3"]
-atlas = ExtResource("2_3sgba")
-region = Rect2(80, 0, 40, 40)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_3hbcj"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_yolg3")
-}],
-"loop": true,
-"name": &"Dash",
-"speed": 30.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ku2bm")
-}],
-"loop": true,
-"name": &"Idle",
-"speed": 30.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_1dwr8")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_0h3c3")
-}],
-"loop": true,
-"name": &"Run",
-"speed": 30.0
-}]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bc0qp"]
 size = Vector2(31, 37)
@@ -78,9 +32,8 @@ texture = SubResource("GradientTexture2D_xq6u8")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
-sprite_frames = SubResource("SpriteFrames_3hbcj")
-animation = &"Idle"
-autoplay = "Idle"
+sprite_frames = ExtResource("2_mmbyv")
+animation = &"Wallslide"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-0.5, 0.5)

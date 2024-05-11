@@ -3,8 +3,8 @@
 [ext_resource type="PackedScene" uid="uid://1cgj7cvtll74" path="res://mobs/player.tscn" id="1_e7dio"]
 [ext_resource type="Texture2D" uid="uid://dbfa0iu0bvyfk" path="res://textures/placeholder.png" id="2_l4kaf"]
 [ext_resource type="PackedScene" uid="uid://c2jwlhgvglxje" path="res://mobs/garbo.tscn" id="2_rh2jd"]
-[ext_resource type="PackedScene" uid="uid://d2r3s38ecn1hh" path="res://mobs/bungus.tscn" id="4_pil4h"]
-[ext_resource type="PackedScene" uid="uid://cveldpnbaoear" path="res://mobs/chugos.tscn" id="5_w41wl"]
+[ext_resource type="PackedScene" path="res://mobs/bungus.tscn" id="4_pil4h"]
+[ext_resource type="PackedScene" path="res://mobs/chugos.tscn" id="5_w41wl"]
 [ext_resource type="PackedScene" uid="uid://bq85l7djgqj8o" path="res://objects/tesseract.tscn" id="6_ot3xq"]
 [ext_resource type="TileSet" uid="uid://cuukt0ibtdfua" path="res://tileset.tres" id="7_qt7qn"]
 
@@ -27,9 +27,6 @@ size = Vector2(16, 100)
 
 [node name="Player" parent="." instance=ExtResource("1_e7dio")]
 position = Vector2(0, -27)
-
-[node name="Sprite2D" parent="Player/Camera2D" index="0"]
-visible = true
 
 [node name="TileMap" type="TileMap" parent="." groups=["wall"]]
 tile_set = ExtResource("7_qt7qn")
@@ -186,5 +183,3 @@ position = Vector2(-287, -139)
 
 [node name="Tesseract" parent="." instance=ExtResource("6_ot3xq")]
 position = Vector2(579, -404)
-
-[editable path="Player"]

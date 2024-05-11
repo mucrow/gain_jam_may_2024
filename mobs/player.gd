@@ -43,6 +43,7 @@ var previous_velocity: Vector2
 
 func _ready():
   dash_cooldown_timer.timeout.connect(end_dash_state)
+  sprite.animation_finished.connect(end_animation)
   pass #pass away
 
 func _physics_process(dt):
@@ -68,6 +69,7 @@ func state_free_physics_process(dt):
 
   var direction = Input.get_axis("move_left", "move_right")
   direction = sign(direction)
+  var canwalljump = can_walljump()
 
   #current max speed represents how fast you go if you hold in one direction.
   #if you're in the air, your current max speed is either max_speed or your own speed; if you're going faster than max speed, you can continue to go faster by holding direction.
@@ -91,8 +93,8 @@ func state_free_physics_process(dt):
   if Input.is_action_just_pressed("jump"):
     if is_on_floor():
       velocity.y = jump_velocity
+      sprite.animation = "JumpStart"
     else:
-      var canwalljump = can_walljump()
       if canwalljump:
         apply_walljump(canwalljump)
 
@@ -104,12 +106,19 @@ func state_free_physics_process(dt):
 
   move_and_slide()
 
-  if abs(velocity.x) < 0.1:
-    sprite.animation = 'Idle'
+  if not is_on_floor() and canwalljump:
+    sprite.flip_h = true if canwalljump == 1 else false
+    sprite.animation = "Wallslide"
     sprite.play()
-  else:
+  elif not is_on_floor() and not (sprite.animation == "Jump" or sprite.animation == "JumpStart"):
+    sprite.animation = "Jump"
+    sprite.play()
+  elif is_on_floor() and abs(velocity.x) >= 0.1:
     sprite.flip_h = velocity.x < 0.0
     sprite.animation = 'Run'
+    sprite.play()
+  elif is_on_floor() and sprite.animation != 'IdleStart' and sprite.animation != 'Idle':
+    sprite.animation = 'IdleStart'
     sprite.play()
 
   check_enemy_collision()
@@ -133,6 +142,7 @@ func state_launched_physics_process(dt):
     var canwalljump = can_walljump()
     if is_on_floor():
       velocity.y = jump_velocity
+      sprite.animation = "JumpStart"
       end_launched_state()
     elif canwalljump:
       apply_walljump(canwalljump)
@@ -142,11 +152,22 @@ func state_launched_physics_process(dt):
 
   move_and_slide()
 
+  if is_stunned and sprite.animation != "Stun":
+    sprite.animation = "Stun"
+    sprite.play()
+  elif not is_stunned and sprite.animation != "Dash":
+    sprite.animation = "Dash"
+    sprite.flip_h = true if velocity.x < 0 else false
+    sprite.play()
+
   check_enemy_collision()
 
 
 func state_dash_physics_process(dt):
   check_walltouch()
+  
+  sprite.animation = 'Dash'
+  sprite.play()
 
   if Input.is_action_just_pressed("jump"):
     var canwalljump = can_walljump()
@@ -266,3 +287,11 @@ func end_launched_state():
 func end_dash_state():
   dash_cooldown_timer.stop()
   state = State.Free
+  
+func end_animation():
+  if sprite.animation == "IdleStart":
+    sprite.animation = "Idle"
+    sprite.play()
+  elif sprite.animation == "JumpStart":
+    sprite.animation = "Jump"
+    sprite.play()
