@@ -1,8 +1,6 @@
 extends CharacterBody2D
 
 
-# bugs don't jump and gods don't bleed
-@export var jump_velocity = -400.0
 @export var move_speed = 100.0
 @export var gravity = 980.0
 
@@ -10,7 +8,7 @@ extends CharacterBody2D
 @export var launch_strength_x: float = 1
 @export var launch_strength_y: float = 0.6
 
-@onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
+@onready var sprite: AnimatedSprite2D = $SpriteAnchor/AnimatedSprite2D
 
 var direction = -1.0
 

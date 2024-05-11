@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://2edpeflvrsm4"
-path="res://.godot/imported/garbo_0.png-c49a3928440ebc0f827ddfbe8ace8100.ctex"
+uid="uid://b1uo3jj0lfjun"
+path="res://.godot/imported/garbo.png-9c368ea2d412aef1a0b3b4e7d44cac6d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://textures/garbo_0.png"
-dest_files=["res://.godot/imported/garbo_0.png-c49a3928440ebc0f827ddfbe8ace8100.ctex"]
+source_file="res://textures/garbo.png"
+dest_files=["res://.godot/imported/garbo.png-9c368ea2d412aef1a0b3b4e7d44cac6d.ctex"]
 
 [params]
 

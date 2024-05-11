@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b8mhoc6u28ne2"
-path="res://.godot/imported/happy_tile.png-e39061459d383cf313901accfd544ece.ctex"
+uid="uid://bejygi2ptipbm"
+path="res://.godot/imported/og_garbo_0.png-520ff36fb3057bdf87bc3aae717641cc.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://textures/happy_tile.png"
-dest_files=["res://.godot/imported/happy_tile.png-e39061459d383cf313901accfd544ece.ctex"]
+source_file="res://textures/og_garbo_0.png"
+dest_files=["res://.godot/imported/og_garbo_0.png-520ff36fb3057bdf87bc3aae717641cc.ctex"]
 
 [params]
 
