@@ -24,7 +24,7 @@ class_name Player
 
 
 enum State {
-  Free, Launched
+  Free, Launched, Dash
 }
 
 @onready var dash_cooldown_timer: Timer = $DashCooldownTimer
@@ -33,26 +33,34 @@ enum State {
 
 var state = State.Free
 
-var has_
+var is_stunned = false
 
-var in_dash_cooldown: bool = false
 var walltouch_velocity: Vector2
 var justtouchedwall: bool = false
 
 var previous_velocity: Vector2
 
 
+func _ready():
+  dash_cooldown_timer.timeout.connect(end_dash_state)
+  pass #pass away
+
 func _physics_process(dt):
   if state == State.Free:
     state_free_physics_process(dt)
   elif state == State.Launched:
     state_launched_physics_process(dt)
+  elif state == State.Dash:
+    state_dash_physics_process(dt)
   else:
     push_warning('unhandled state %s' % state)
     state = State.Free 
   previous_velocity = velocity
 
 
+######################################################################################
+# STATE PHYSICS PROESESCSES
+######################################################################################
 func state_free_physics_process(dt):
   check_walltouch()
 
@@ -88,7 +96,7 @@ func state_free_physics_process(dt):
       if canwalljump:
         apply_walljump(canwalljump)
 
-  if Input.is_action_just_pressed("dash") and not in_dash_cooldown:
+  if Input.is_action_just_pressed("dash"):
     if direction != 0:
       apply_dash(direction)
     else:
@@ -96,9 +104,7 @@ func state_free_physics_process(dt):
 
   move_and_slide()
 
-  if in_dash_cooldown:
-    pass
-  elif abs(velocity.x) < 0.1:
+  if abs(velocity.x) < 0.1:
     sprite.animation = 'Idle'
     sprite.play()
   else:
@@ -106,12 +112,7 @@ func state_free_physics_process(dt):
     sprite.animation = 'Run'
     sprite.play()
 
-  for i in get_slide_collision_count():
-    var collision = get_slide_collision(i)
-    var collider = collision.get_collider()
-    if collider.is_in_group('enemies'):
-      if collider.has_method('on_collision_with_player'):
-        collider.on_collision_with_player(self)
+  check_enemy_collision()
 
 
 func state_launched_physics_process(dt):
@@ -122,15 +123,18 @@ func state_launched_physics_process(dt):
   var direction = Input.get_axis("move_left", "move_right")
   direction = sign(direction)
 
-  if Input.is_action_just_pressed("dash") and not in_dash_cooldown:
+  if not is_stunned and Input.is_action_just_pressed("dash"):
     if direction != 0:
       apply_dash(direction)
     else:
       apply_dash(-1.0 if sprite.flip_h else 1.0)
 
-  if Input.is_action_just_pressed("jump"):
+  if not is_stunned and Input.is_action_just_pressed("jump"):
     var canwalljump = can_walljump()
-    if canwalljump:
+    if is_on_floor():
+      velocity.y = jump_velocity
+      end_launched_state()
+    elif canwalljump:
       apply_walljump(canwalljump)
       
   if is_on_floor():
@@ -138,11 +142,29 @@ func state_launched_physics_process(dt):
 
   move_and_slide()
 
+  check_enemy_collision()
 
-func apply_gravity(dt):
-  if not is_on_floor() and not in_dash_cooldown:
-    velocity.y += gravity * dt
 
+func state_dash_physics_process(dt):
+  check_walltouch()
+
+  if Input.is_action_just_pressed("jump"):
+    var canwalljump = can_walljump()
+    if is_on_floor():
+      velocity.y = jump_velocity
+      end_dash_state()
+    elif canwalljump:
+      end_dash_state()
+      apply_walljump(canwalljump)
+
+  move_and_slide()
+
+  check_enemy_collision()
+
+
+######################################################################################
+# CHECK ABILITES/state
+######################################################################################
 
 func check_walltouch():
   var canwal = can_walljump()
@@ -155,36 +177,6 @@ func check_walltouch():
 
   if not can_walljump():
     justtouchedwall = false
-
-
-func apply_launch(new_velocity: Vector2, duration: float):
-  velocity = new_velocity
-  if duration > 0.0001:
-    sprite.modulate = Color(1, 0.25, 0.25)
-    state = State.Launched
-    launched_state_timer.wait_time = duration
-    launched_state_timer.start()
-
-
-func apply_dash(direction: float):
-  sprite.flip_h = direction < 0.0
-  sprite.animation = 'Dash'
-  sprite.play()
-  var new_velocity = Vector2(direction * dash_velocity, 0)
-  if abs(velocity.x) < dash_velocity: new_velocity.x = direction * dash_velocity
-  apply_launch(new_velocity, dash_lockin_time)
-
-  in_dash_cooldown = true
-  dash_cooldown_timer.start()
-
-
-func restore_dash():
-  in_dash_cooldown = false
-
-
-func end_launched_state():
-  sprite.modulate = Color.WHITE
-  state = State.Free
 
 
 # returns -1 if can walljump off left wall, 1 if off right wall, 0 if can't walljump
@@ -208,6 +200,51 @@ func can_walljump():
 
     return 0
 
+func check_enemy_collision():
+  for i in get_slide_collision_count():
+    var collision = get_slide_collision(i)
+    var collider = collision.get_collider()
+    if collider.is_in_group('enemies'):
+      if collider.has_method('on_collision_with_player'):
+        collider.on_collision_with_player(self)
+
+
+######################################################################################
+# APPLY/END STATES
+######################################################################################
+
+func apply_gravity(dt):
+  if not is_on_floor():
+    velocity.y += gravity * dt
+
+
+func apply_launch(new_velocity: Vector2, duration: float, is_stunning_launch: bool = false):
+  is_stunned = is_stunning_launch
+  #clean up previous state
+  dash_cooldown_timer.stop()
+  #... whatever other state
+
+  velocity = new_velocity
+  if duration > 0.0001:
+    sprite.modulate = Color(1, 0.25, 0.25)
+    state = State.Launched
+    launched_state_timer.wait_time = duration
+    launched_state_timer.start()
+
+
+func apply_dash(direction: float):
+  state = State.Dash
+
+  sprite.flip_h = direction < 0.0
+  sprite.animation = 'Dash'
+  sprite.play()
+  var new_velocity = Vector2(direction * dash_velocity, 0)
+  if abs(velocity.x) < dash_velocity: new_velocity.x = direction * dash_velocity
+
+  velocity = new_velocity
+  dash_cooldown_timer.wait_time = dash_lockin_time
+  dash_cooldown_timer.start()
+
 
 func apply_walljump(dir):
     var min_launch_velocity = (dir * Vector2.LEFT + Vector2.UP) * walljump_strength
@@ -218,3 +255,14 @@ func apply_walljump(dir):
 
     apply_launch(launch_velocity, walljump_lockin_time)
     walltouch_velocity = Vector2.ZERO
+
+
+
+
+func end_launched_state():
+  sprite.modulate = Color.WHITE
+  state = State.Free
+
+func end_dash_state():
+  dash_cooldown_timer.stop()
+  state = State.Free

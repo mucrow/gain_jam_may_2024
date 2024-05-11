@@ -93,5 +93,4 @@ wait_time = 0.3
 [node name="LaunchedStateTimer" type="Timer" parent="."]
 one_shot = true
 
-[connection signal="timeout" from="DashCooldownTimer" to="." method="restore_dash"]
 [connection signal="timeout" from="LaunchedStateTimer" to="." method="end_launched_state"]
