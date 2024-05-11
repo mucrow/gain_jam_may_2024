@@ -3,12 +3,15 @@ class_name Player
 
 
 @export var jump_velocity = -500.0
-@export var move_speed_in_air = 50.0
-@export var move_speed_on_floor = 300.0
+@export var move_accel_in_air = 50.0
+@export var move_accel_on_floor = 300.0
 @export var max_run_speed = 300.0
-@export var deceleration_floor = 300.0
-@export var deceleration_floor_launched = 20
-@export var deceleration_air = 0.0
+
+@export var frictionloss_floor = 0.9
+
+@export var decel_floor = 300.0
+@export var decel_floor_launched = 20
+@export var decel_air = 0.0
 @export var gravity = 980.0
 @export var walljump_strength = 400
 @export var walljump_max_distance = 30
@@ -16,6 +19,7 @@ class_name Player
 @export var max_speed = 1100.0
 
 @export var walljump_lockin_time = 0.3
+@export var dash_lockin_time = 0.3
 
 
 
@@ -28,6 +32,8 @@ enum State {
 @onready var sprite: AnimatedSprite2D = $Sprite
 
 var state = State.Free
+
+var has_
 
 var in_dash_cooldown: bool = false
 var walltouch_velocity: Vector2
@@ -55,17 +61,24 @@ func state_free_physics_process(dt):
   var direction = Input.get_axis("move_left", "move_right")
   direction = sign(direction)
 
-  var move_speed = move_speed_on_floor if is_on_floor() else move_speed_in_air
+  #current max speed represents how fast you go if you hold in one direction.
+  #if you're in the air, your current max speed is either max_speed or your own speed; if you're going faster than max speed, you can continue to go faster by holding direction.
+  #if you're on the ground, same deal, but slight friction applies. you will steadily lose speed back to your regular run speed unless you dash again, jump, something else
+
+  var move_speed = move_accel_on_floor if is_on_floor() else move_accel_in_air
   var current_max_speed = max_run_speed
   if abs(sign(velocity.x) - direction) < 0.0001:
-    current_max_speed = max(abs(velocity.x), max_run_speed)
+    var eff_xvelocity = abs(velocity.x)
+    if is_on_floor(): eff_xvelocity *= frictionloss_floor
+    current_max_speed = max(eff_xvelocity, max_run_speed)
   current_max_speed = min(current_max_speed, max_speed)
+
   if direction:
     velocity.x = move_toward(velocity.x, direction * current_max_speed, move_speed)
   elif is_on_floor() or (abs(velocity.x) <= max_run_speed): #do an input in the air to decelerate slower
-    velocity.x = move_toward(velocity.x, 0, deceleration_floor)
+    velocity.x = move_toward(velocity.x, 0, decel_floor)
   else: #eternally applied air deceleration
-    velocity.x = move_toward(velocity.x, 0, deceleration_air)
+    velocity.x = move_toward(velocity.x, 0, decel_air)
 
   if Input.is_action_just_pressed("jump"):
     if is_on_floor():
@@ -121,7 +134,7 @@ func state_launched_physics_process(dt):
       apply_walljump(canwalljump)
       
   if is_on_floor():
-    velocity.x = move_toward(velocity.x, 0, deceleration_floor_launched)
+    velocity.x = move_toward(velocity.x, 0, decel_floor_launched)
 
   move_and_slide()
 
@@ -157,8 +170,10 @@ func apply_dash(direction: float):
   sprite.flip_h = direction < 0.0
   sprite.animation = 'Dash'
   sprite.play()
-  velocity.y = 0.0
-  if abs(velocity.x) < dash_velocity: velocity.x = direction * dash_velocity
+  var new_velocity = Vector2(direction * dash_velocity, 0)
+  if abs(velocity.x) < dash_velocity: new_velocity.x = direction * dash_velocity
+  apply_launch(new_velocity, dash_lockin_time)
+
   in_dash_cooldown = true
   dash_cooldown_timer.start()
 

@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://xk7y2lg8qtcw"]
+[gd_scene load_steps=8 format=3 uid="uid://xk7y2lg8qtcw"]
 
 [ext_resource type="PackedScene" uid="uid://1cgj7cvtll74" path="res://mobs/player.tscn" id="1_p46om"]
 [ext_resource type="PackedScene" uid="uid://c2jwlhgvglxje" path="res://mobs/garbo.tscn" id="2_dr0yk"]
 [ext_resource type="Texture2D" uid="uid://dbfa0iu0bvyfk" path="res://textures/placeholder.png" id="2_gdy6y"]
 [ext_resource type="PackedScene" uid="uid://bq85l7djgqj8o" path="res://objects/tesseract.tscn" id="4_7nttd"]
+[ext_resource type="Texture2D" uid="uid://blyixjwyyuuhm" path="res://textures/ruler.png" id="5_e3hqd"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_natb8"]
 size = Vector2(1024, 16)
@@ -13,20 +14,7 @@ size = Vector2(20, 1024)
 
 [node name="AlbaDebug" type="Node2D"]
 
-[node name="Camera2D" type="Camera2D" parent="."]
-offset = Vector2(0, -192)
-
 [node name="Player" parent="." instance=ExtResource("1_p46om")]
-
-[node name="Wall" type="StaticBody2D" parent="."]
-collision_mask = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall"]
-shape = SubResource("RectangleShape2D_natb8")
-
-[node name="Sprite2D" type="Sprite2D" parent="Wall"]
-scale = Vector2(1024, 16)
-texture = ExtResource("2_gdy6y")
 
 [node name="Garbo" parent="." instance=ExtResource("2_dr0yk")]
 position = Vector2(83, -38)
@@ -55,27 +43,77 @@ overrides the one in the
 Player instance)"
 horizontal_alignment = 1
 
-[node name="Wall2" type="StaticBody2D" parent="." groups=["wall"]]
-position = Vector2(-437, -492)
+[node name="Tesseract" parent="." instance=ExtResource("4_7nttd")]
+position = Vector2(404, -41)
+
+[node name="mappu" type="Node" parent="."]
+
+[node name="Wall2" type="StaticBody2D" parent="mappu"]
+position = Vector2(-1021, 0)
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall2"]
-shape = SubResource("RectangleShape2D_t58yj")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="mappu/Wall2"]
+shape = SubResource("RectangleShape2D_natb8")
 
-[node name="Sprite2D" type="Sprite2D" parent="Wall2"]
-scale = Vector2(20, 1024)
+[node name="Sprite2D" type="Sprite2D" parent="mappu/Wall2"]
+scale = Vector2(1024, 16)
 texture = ExtResource("2_gdy6y")
 
-[node name="Wall3" type="StaticBody2D" parent="." groups=["wall"]]
+[node name="Wall3" type="StaticBody2D" parent="mappu" groups=["wall"]]
 position = Vector2(450, -477)
 collision_mask = 0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall3"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="mappu/Wall3"]
 shape = SubResource("RectangleShape2D_t58yj")
 
-[node name="Sprite2D" type="Sprite2D" parent="Wall3"]
+[node name="Sprite2D" type="Sprite2D" parent="mappu/Wall3"]
 scale = Vector2(20, 1024)
 texture = ExtResource("2_gdy6y")
 
-[node name="Tesseract" parent="." instance=ExtResource("4_7nttd")]
-position = Vector2(404, -41)
+[node name="Wall" type="StaticBody2D" parent="mappu"]
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="mappu/Wall"]
+shape = SubResource("RectangleShape2D_natb8")
+
+[node name="Sprite2D" type="Sprite2D" parent="mappu/Wall"]
+scale = Vector2(1024, 16)
+texture = ExtResource("2_gdy6y")
+
+[node name="Wall4" type="StaticBody2D" parent="mappu"]
+position = Vector2(-2044, 0)
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="mappu/Wall4"]
+shape = SubResource("RectangleShape2D_natb8")
+
+[node name="Sprite2D" type="Sprite2D" parent="mappu/Wall4"]
+scale = Vector2(1024, 16)
+texture = ExtResource("2_gdy6y")
+
+[node name="Wall5" type="StaticBody2D" parent="mappu"]
+position = Vector2(-3057, 0)
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="mappu/Wall5"]
+shape = SubResource("RectangleShape2D_natb8")
+
+[node name="Sprite2D" type="Sprite2D" parent="mappu/Wall5"]
+scale = Vector2(1024, 16)
+texture = ExtResource("2_gdy6y")
+
+[node name="Wall6" type="StaticBody2D" parent="mappu" groups=["wall"]]
+position = Vector2(-2853, -614)
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="mappu/Wall6"]
+shape = SubResource("RectangleShape2D_t58yj")
+
+[node name="Sprite2D" type="Sprite2D" parent="mappu/Wall6"]
+scale = Vector2(20, 1024)
+texture = ExtResource("2_gdy6y")
+
+[node name="Sprite2D" type="Sprite2D" parent="mappu"]
+position = Vector2(-1433, -243)
+scale = Vector2(3, 1)
+texture = ExtResource("5_e3hqd")
