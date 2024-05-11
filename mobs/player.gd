@@ -7,6 +7,7 @@ class_name Player
 @export var move_speed_on_floor = 300.0
 @export var max_run_speed = 300.0
 @export var deceleration_floor = 300.0
+@export var deceleration_floor_launched = 20
 @export var deceleration_air = 0.0
 @export var gravity = 980.0
 @export var walljump_strength = 400
@@ -29,6 +30,8 @@ var in_dash_cooldown: bool = false
 var walltouch_velocity: Vector2
 var justtouchedwall: bool = false
 
+var previous_velocity: Vector2
+
 
 func _physics_process(dt):
   if state == State.Free:
@@ -37,7 +40,8 @@ func _physics_process(dt):
     state_launched_physics_process(dt)
   else:
     push_warning('unhandled state %s' % state)
-    state = State.Free
+    state = State.Free 
+  previous_velocity = velocity
 
 
 func state_free_physics_process(dt):
@@ -102,6 +106,9 @@ func state_launched_physics_process(dt):
     var canwalljump = can_walljump()
     if canwalljump:
       apply_walljump(canwalljump)
+      
+  if is_on_floor():
+    velocity.x = move_toward(velocity.x, 0, deceleration_floor_launched)
 
   move_and_slide()
 
@@ -112,13 +119,15 @@ func apply_gravity(dt):
 
 
 func check_walltouch():
-  if not justtouchedwall and is_on_wall_only():
+  var canwal = can_walljump()
+  if not justtouchedwall and canwal:
     justtouchedwall = true
-    walltouch_velocity = get_last_slide_collision().get_travel() * 400 + get_last_slide_collision().get_remainder() * 400
-    # print("storing wallhit velocity")
-    # print(walltouch_velocity)
+    #TODO: remove walltouch velocity if you leave the wall (or 1 sec until it disappears?)
+    walltouch_velocity = previous_velocity
+    print("storing wallhit velocity")
+    print(walltouch_velocity)
 
-  if not is_on_wall_only():
+  if not can_walljump():
     justtouchedwall = false
 
 
@@ -175,6 +184,8 @@ func can_walljump():
 func apply_walljump(dir):
     var min_launch_velocity = (dir * Vector2.LEFT + Vector2.UP) * walljump_strength
     var launch_velocity = min_launch_velocity
+    if abs(walltouch_velocity.x) > abs(launch_velocity.x):
+      launch_velocity.x = -walltouch_velocity.x 
     velocity.y = 0
 
     apply_launch(launch_velocity, 0.0)
