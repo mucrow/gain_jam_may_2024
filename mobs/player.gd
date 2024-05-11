@@ -259,7 +259,7 @@ func apply_dash(direction: float):
   sprite.flip_h = direction < 0.0
   sprite.animation = 'Dash'
   sprite.play()
-  var new_velocity = Vector2(direction * dash_velocity, 0)
+  var new_velocity = Vector2(velocity.x, 0)
   if abs(velocity.x) < dash_velocity: new_velocity.x = direction * dash_velocity
 
   velocity = new_velocity
