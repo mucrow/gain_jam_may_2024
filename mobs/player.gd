@@ -14,6 +14,9 @@ class_name Player
 @export var dash_velocity = 800.0
 @export var max_speed = 1100.0
 
+@export var walljump_lockin_time = 0.3
+
+
 
 enum State {
   Free, Launched
@@ -47,6 +50,7 @@ func state_free_physics_process(dt):
 
   var direction = Input.get_axis("move_left", "move_right")
   direction = sign(direction)
+
   var move_speed = move_speed_on_floor if is_on_floor() else move_speed_in_air
   var current_max_speed = max_run_speed
   if abs(sign(velocity.x) - direction) < 0.0001:
@@ -98,6 +102,15 @@ func state_launched_physics_process(dt):
 
   apply_gravity(dt)
 
+  var direction = Input.get_axis("move_left", "move_right")
+  direction = sign(direction)
+
+  if Input.is_action_just_pressed("dash") and not in_dash_cooldown:
+    if direction != 0:
+      apply_dash(direction)
+    else:
+      apply_dash(-1.0 if sprite.flip_h else 1.0)
+
   if Input.is_action_just_pressed("jump"):
     var canwalljump = can_walljump()
     if canwalljump:
@@ -136,7 +149,7 @@ func apply_dash(direction: float):
   sprite.animation = 'Dash'
   sprite.play()
   velocity.y = 0.0
-  velocity.x += direction * dash_velocity
+  if abs(velocity.x) < dash_velocity: velocity.x = direction * dash_velocity
   in_dash_cooldown = true
   dash_cooldown_timer.start()
 
@@ -177,5 +190,5 @@ func apply_walljump(dir):
     var launch_velocity = min_launch_velocity
     velocity.y = 0
 
-    apply_launch(launch_velocity, 0.0)
+    apply_launch(launch_velocity, walljump_lockin_time)
     walltouch_velocity = Vector2.ZERO
