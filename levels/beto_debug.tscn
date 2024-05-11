@@ -23,6 +23,7 @@ scale = Vector2(1024, 16)
 texture = ExtResource("2_4jmwd")
 
 [node name="Garbo" parent="." instance=ExtResource("3_28ak6")]
+position = Vector2(294, -36)
 
 [node name="Sign" type="Label" parent="."]
 z_index = -100

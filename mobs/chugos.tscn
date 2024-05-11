@@ -37,7 +37,6 @@ size = Vector2(34, 36)
 
 [node name="Chugos" type="CharacterBody2D" groups=["enemies"]]
 texture_filter = 1
-position = Vector2(-296, -139)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_ktxwg")

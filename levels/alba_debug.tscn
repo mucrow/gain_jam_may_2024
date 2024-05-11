@@ -17,7 +17,7 @@ size = Vector2(20, 1024)
 [node name="Player" parent="." instance=ExtResource("1_p46om")]
 
 [node name="Garbo" parent="." instance=ExtResource("2_dr0yk")]
-position = Vector2(83, -38)
+position = Vector2(209, -35)
 
 [node name="Sign" type="Label" parent="."]
 z_index = -100

@@ -42,7 +42,6 @@ height = 22.0
 
 [node name="Bungus" type="CharacterBody2D" groups=["enemies"]]
 texture_filter = 1
-position = Vector2(-251, -129)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(-1, -9)
