@@ -133,6 +133,7 @@ func state_launched_physics_process(dt):
   direction = sign(direction)
 
   if not is_stunned and Input.is_action_just_pressed("dash"):
+    end_launched_state()
     if direction != 0:
       apply_dash(direction)
     else:
@@ -145,6 +146,7 @@ func state_launched_physics_process(dt):
       sprite.animation = "JumpStart"
       end_launched_state()
     elif canwalljump:
+      end_launched_state()
       apply_walljump(canwalljump)
       
   if is_on_floor():
@@ -282,6 +284,7 @@ func apply_walljump(dir):
 
 func end_launched_state():
   sprite.modulate = Color.WHITE
+  launched_state_timer.stop()
   state = State.Free
 
 func end_dash_state():
