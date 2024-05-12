@@ -3,6 +3,21 @@
 [ext_resource type="Script" path="res://mobs/garbo.gd" id="1_g50c3"]
 [ext_resource type="Texture2D" uid="uid://b1uo3jj0lfjun" path="res://textures/garbo.png" id="2_4ygbk"]
 
+[sub_resource type="Animation" id="Animation_t2i1o"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SpriteAnchor:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
 [sub_resource type="Animation" id="Animation_88pgv"]
 resource_name = "new_animation"
 length = 0.100005
@@ -21,26 +36,16 @@ tracks/0/keys = {
 "values": [Vector2(0, 0), Vector2(0, -1)]
 }
 
-[sub_resource type="Animation" id="Animation_t2i1o"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("SpriteAnchor:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(0, 0)]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_7ryik"]
 _data = {
 "RESET": SubResource("Animation_t2i1o"),
 "new_animation": SubResource("Animation_88pgv")
 }
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ti4hc"]
+resource_local_to_scene = true
+radius = 16.0
+height = 42.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_r5ho7"]
 atlas = ExtResource("2_4ygbk")
@@ -64,12 +69,9 @@ animations = [{
 "speed": 15.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_q1ck4"]
-radius = 22.0
-
-[node name="Garbo" type="CharacterBody2D" groups=["enemies"]]
+[node name="Garbo" type="CharacterBody2D" groups=["enemies", "garbos"]]
 collision_layer = 4
-collision_mask = 3
+collision_mask = 7
 script = ExtResource("1_g50c3")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -78,6 +80,11 @@ libraries = {
 "": SubResource("AnimationLibrary_7ryik")
 }
 autoplay = "new_animation"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 3)
+shape = SubResource("CapsuleShape2D_ti4hc")
+debug_color = Color(0.968587, 5.67943e-06, 7.70092e-07, 0.419608)
 
 [node name="SpriteAnchor" type="Node2D" parent="."]
 
@@ -89,10 +96,8 @@ autoplay = "idle"
 frame_progress = 0.231956
 flip_h = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 2)
-shape = SubResource("CircleShape2D_q1ck4")
-debug_color = Color(0.968587, 5.67943e-06, 7.70092e-07, 0.419608)
+[node name="StackPoint" type="Node2D" parent="SpriteAnchor"]
+position = Vector2(0, -17)
 
 [node name="TurnaroundTimer" type="Timer" parent="."]
 wait_time = 4.0

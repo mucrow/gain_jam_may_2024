@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://dni8wynuaiaph"]
+
+[ext_resource type="Texture2D" uid="uid://b1uo3jj0lfjun" path="res://textures/garbo.png" id="1_avjiq"]
+[ext_resource type="Script" path="res://mobs/stacked_garbo.gd" id="1_vluse"]
+
+[node name="StackedGarboA" type="Node2D"]
+script = ExtResource("1_vluse")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = -1
+texture_filter = 1
+position = Vector2(0, -20)
+texture = ExtResource("1_avjiq")
+flip_h = true
+hframes = 4
+frame = 2
+
+[node name="StackPoint" type="Node2D" parent="Sprite2D"]
+position = Vector2(0, -13)
