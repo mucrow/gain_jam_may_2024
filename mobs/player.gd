@@ -242,10 +242,8 @@ func apply_gravity(dt):
 
 
 func apply_launch(new_velocity: Vector2, duration: float, is_stunning_launch: bool = false):
+  #print("APPLYING LAUNCH")
   is_stunned = is_stunning_launch
-  #clean up previous state
-  dash_cooldown_timer.stop()
-  #... whatever other state
 
   velocity = new_velocity
   if duration > 0.0001:
@@ -256,13 +254,14 @@ func apply_launch(new_velocity: Vector2, duration: float, is_stunning_launch: bo
 
 
 func apply_dash(direction: float):
+  #print("APPLYING DASH")
   state = State.Dash
 
   sprite.flip_h = direction < 0.0
   sprite.animation = 'Dash'
   sprite.play()
   var new_velocity = Vector2(velocity.x, 0)
-  if abs(velocity.x) < dash_velocity: new_velocity.x = direction * dash_velocity
+  if (abs(velocity.x) < dash_velocity) or sign(velocity.x) != sign(direction): new_velocity.x = direction * dash_velocity
 
   velocity = new_velocity
   dash_cooldown_timer.wait_time = dash_lockin_time
@@ -283,11 +282,13 @@ func apply_walljump(dir):
 
 
 func end_launched_state():
+  #print("ENDING LAUNCH STATE")
   sprite.modulate = Color.WHITE
   launched_state_timer.stop()
   state = State.Free
 
 func end_dash_state():
+  #print("ENDING DASH STATE")
   dash_cooldown_timer.stop()
   state = State.Free
   
