@@ -1,5 +1,6 @@
-[gd_scene load_steps=7 format=3 uid="uid://d2r3s38ecn1hh"]
+[gd_scene load_steps=8 format=3 uid="uid://d2r3s38ecn1hh"]
 
+[ext_resource type="Script" path="res://mobs/bungus.gd" id="1_5rf0e"]
 [ext_resource type="Texture2D" uid="uid://cwdwlgudqhog1" path="res://textures/bungus.png" id="1_l80dp"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_a6wyo"]
@@ -40,15 +41,24 @@ animations = [{
 radius = 9.0
 height = 22.0
 
-[node name="Bungus" type="CharacterBody2D" groups=["enemies"]]
+[node name="Bungus" type="CharacterBody2D" groups=["bunguses", "enemies"]]
 texture_filter = 1
+script = ExtResource("1_5rf0e")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(-1, -9)
 sprite_frames = SubResource("SpriteFrames_tpqnx")
-animation = &"idle"
-autoplay = "idle"
+animation = &"run"
+autoplay = "run"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_esgjg")
+
+[node name="LaunchedStateTimer" type="Timer" parent="."]
+
+[node name="TurnaroundTimer" type="Timer" parent="."]
+autostart = true
+
+[connection signal="timeout" from="LaunchedStateTimer" to="." method="end_launched_state"]
+[connection signal="timeout" from="TurnaroundTimer" to="." method="on_turnaround_timeout"]
