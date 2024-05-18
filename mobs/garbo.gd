@@ -59,7 +59,8 @@ func on_collision_with_bungus(bungus: Bungus, normal: Vector2):
 
 
 func on_collision_with_other_garbo(other: Garbo):
-  var angle_to_other = rad_to_deg(((other.position - position).angle()))
+  var stack_check_point = get_stack_check_point()
+  var angle_to_other = rad_to_deg(((other.position - stack_check_point).angle()))
   if angle_to_other >= -135.0 and angle_to_other < -45.0:
     stack_garbo(other)
   elif angle_to_other >= -45.0 and angle_to_other < 45.0:
@@ -77,22 +78,35 @@ func on_collision_with_player(player: Player):
 
 
 func stack_garbo(other: Garbo):
-  var stack_target = stacked_objects[-1] if stacked_objects.size() > 0 else self
-
-  var stacked_garbo_scene = stacked_garbo_a_scene if randi() % 2 == 0 else stacked_garbo_b_scene
-  var new_stacked_garbo: StackedGarbo = stacked_garbo_scene.instantiate()
-  stacked_objects.push_back(new_stacked_garbo)
-  stack_target.set_stacked_object(new_stacked_garbo)
+  var how_many_garbos_to_add = 1 + other.stacked_objects.size()
+  for _i in how_many_garbos_to_add:
+    add_garbo_to_stack()
 
   update_collider()
 
   other.queue_free()
 
 
+# YOU MUST CALL update_collider() AFTER CALLING THIS FUNCTION.
+# also don't forget to queue_free() the garbo you stacked if applicable
+func add_garbo_to_stack():
+  var stack_target = stacked_objects[-1] if stacked_objects.size() > 0 else self
+  var stacked_garbo_scene = stacked_garbo_a_scene if randi() % 2 == 0 else stacked_garbo_b_scene
+  var new_stacked_garbo: StackedGarbo = stacked_garbo_scene.instantiate()
+  stacked_objects.push_back(new_stacked_garbo)
+  stack_target.set_stacked_object(new_stacked_garbo)
+
+
 func set_stacked_object(object: StackedGarbo):
   if stacked_objects.size() > 0:
     push_warning('you called set_stacked_object on me (a root garbo), but i already had a stacked object')
   stack_point.add_child(object)
+
+
+func get_stack_check_point():
+  if stacked_objects.size() == 0:
+    return position
+  return stacked_objects[-1].global_position
 
 
 func get_true_center():
