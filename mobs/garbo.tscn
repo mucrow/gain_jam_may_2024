@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://c2jwlhgvglxje"]
+[gd_scene load_steps=11 format=3 uid="uid://c2jwlhgvglxje"]
 
 [ext_resource type="Script" path="res://mobs/garbo.gd" id="1_g50c3"]
 [ext_resource type="Texture2D" uid="uid://b1uo3jj0lfjun" path="res://textures/garbo.png" id="2_4ygbk"]
@@ -69,6 +69,11 @@ animations = [{
 "speed": 15.0
 }]
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7hfmr"]
+resource_local_to_scene = true
+radius = 4.445
+height = 20.0
+
 [node name="Garbo" type="CharacterBody2D" groups=["enemies", "garbos"]]
 collision_layer = 4
 collision_mask = 7
@@ -99,8 +104,16 @@ flip_h = true
 [node name="StackPoint" type="Node2D" parent="SpriteAnchor"]
 position = Vector2(0, -17)
 
+[node name="StackingArea2D" type="Area2D" parent="SpriteAnchor/StackPoint"]
+position = Vector2(0, 6)
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SpriteAnchor/StackPoint/StackingArea2D"]
+shape = SubResource("CapsuleShape2D_7hfmr")
+
 [node name="TurnaroundTimer" type="Timer" parent="."]
 wait_time = 4.0
 autostart = true
 
+[connection signal="body_entered" from="SpriteAnchor/StackPoint/StackingArea2D" to="." method="on_body_entered_stacking_area"]
 [connection signal="timeout" from="TurnaroundTimer" to="." method="on_turnaround_timeout"]

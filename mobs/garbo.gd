@@ -13,6 +13,7 @@ class_name Garbo
 @onready var sprite: AnimatedSprite2D = $SpriteAnchor/AnimatedSprite2D
 @onready var sprite_anchor: Node2D = $SpriteAnchor
 @onready var stack_point: Node2D = $SpriteAnchor/StackPoint
+@onready var stacking_area: Area2D = $SpriteAnchor/StackPoint/StackingArea2D;
 @onready var turnaround_timer: Timer = $TurnaroundTimer
 
 var direction = -1.0
@@ -62,7 +63,8 @@ func on_collision_with_other_garbo(other: Garbo):
   var stack_check_point = get_stack_check_point()
   var angle_to_other = rad_to_deg(((other.position - stack_check_point).angle()))
   if angle_to_other >= -135.0 and angle_to_other < -45.0:
-    stack_garbo(other)
+    # stack_garbo(other)
+    pass
   elif angle_to_other >= -45.0 and angle_to_other < 45.0:
     turnaround_timer.stop()
     turnaround_timer.start()
@@ -132,3 +134,19 @@ func get_true_height():
 func update_collider():
   collider.global_position = get_true_center()
   collider.shape.height = get_true_height()
+
+  var new_stacking_area_parent = get_stacking_area_parent()
+  Utils.change_parent(stacking_area, new_stacking_area_parent)
+  stacking_area.position.y = 6
+
+
+func get_stacking_area_parent():
+  if stacked_objects.size() == 0:
+    return stack_point
+  var top_stacked_garbo = stacked_objects[-1]
+  return top_stacked_garbo.stack_point
+
+
+func on_body_entered_stacking_area(body: Node2D):
+  if body != self and body.is_in_group('garbos'):
+    stack_garbo(body)
