@@ -19,9 +19,11 @@ position = Vector2(0, -40)
 collision_layer = 2
 collision_mask = 5
 script = ExtResource("1_cx0sq")
+jump_velocity = -570.0
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(0, -96)
+position = Vector2(-2, -41)
+zoom = Vector2(2, 2)
 
 [node name="Sprite2D" type="Sprite2D" parent="Camera2D"]
 visible = false

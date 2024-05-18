@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=3 uid="uid://cqjq3lwnk74m6"]
+
+[ext_resource type="Script" path="res://mobs/garbospawner.gd" id="1_5qnge"]
+[ext_resource type="Texture2D" uid="uid://bglra3uuihwk2" path="res://textures/tiles.png" id="2_p2d4k"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ej2wg"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vnrhw"]
+atlas = ExtResource("2_p2d4k")
+region = Rect2(80, 40, 40, 40)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_mfkp4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vnrhw")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Garbospawner" type="StaticBody2D"]
+script = ExtResource("1_5qnge")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_ej2wg")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_mfkp4")
+
+[node name="GarboSpawnTimer" type="Timer" parent="."]
