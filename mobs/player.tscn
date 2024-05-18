@@ -1,7 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://1cgj7cvtll74"]
+[gd_scene load_steps=11 format=3 uid="uid://1cgj7cvtll74"]
 
 [ext_resource type="Script" path="res://mobs/player.gd" id="1_cx0sq"]
+[ext_resource type="Texture2D" uid="uid://c6yejuux8gr0s" path="res://textures/BG1Clouds.png" id="2_m5t1n"]
 [ext_resource type="SpriteFrames" uid="uid://chj1k0qdlak8f" path="res://player.tres" id="2_mmbyv"]
+[ext_resource type="Texture2D" uid="uid://dhjmc3oblgeiw" path="res://textures/BG2Buildings1.png" id="3_hs4cu"]
+[ext_resource type="Texture2D" uid="uid://c0lb2bc3gk3wy" path="res://textures/BG3Buildings2.png" id="4_wbq5q"]
 
 [sub_resource type="Gradient" id="Gradient_ojr5d"]
 colors = PackedColorArray(0, 0, 0, 1, 0, 0.14902, 0.172549, 1)
@@ -10,6 +13,12 @@ colors = PackedColorArray(0, 0, 0, 1, 0, 0.14902, 0.172549, 1)
 gradient = SubResource("Gradient_ojr5d")
 width = 128
 height = 128
+
+[sub_resource type="Gradient" id="Gradient_clx6r"]
+colors = PackedColorArray(0, 0, 0, 1, 0.20871, 0.20871, 0.20871, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_b2nxw"]
+gradient = SubResource("Gradient_clx6r")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bc0qp"]
 size = Vector2(31, 37)
@@ -26,11 +35,35 @@ position = Vector2(-2, -41)
 zoom = Vector2(2, 2)
 
 [node name="Sprite2D" type="Sprite2D" parent="Camera2D"]
-visible = false
 z_index = -200
 rotation = 4.71239
 scale = Vector2(5.5, 10)
 texture = SubResource("GradientTexture2D_xq6u8")
+
+[node name="Sprite2D2" type="Sprite2D" parent="Camera2D"]
+z_index = -199
+rotation = -3.14159
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("2_m5t1n")
+
+[node name="Sprite2D3" type="Sprite2D" parent="Camera2D"]
+z_index = -198
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("3_hs4cu")
+
+[node name="Sprite2D4" type="Sprite2D" parent="Camera2D"]
+z_index = -197
+position = Vector2(0, 50)
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("4_wbq5q")
+
+[node name="Sprite2D5" type="Sprite2D" parent="Camera2D"]
+modulate = Color(1, 1, 1, 0.462745)
+z_index = -197
+position = Vector2(-3.33784, 6.86708)
+rotation = -1.5708
+scale = Vector2(11.3905, 20.0722)
+texture = SubResource("GradientTexture2D_b2nxw")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
