@@ -27,18 +27,18 @@ func _ready():
 
 
 func _physics_process(dt):
-  if is_on_floor():
-    velocity.y = 0
-  else:
+  if not is_on_floor():
     velocity.y += gravity * dt
-
-  velocity.x = direction * move_speed
+  velocity.x = move_toward(velocity.x, direction * move_speed, 30.0)
   move_and_slide()
 
   for i in get_slide_collision_count():
     var collision = get_slide_collision(i)
+    var normal = collision.get_normal()
     var other_collider = collision.get_collider()
-    if other_collider.is_in_group('garbos'):
+    if other_collider.is_in_group('bunguses'):
+      on_collision_with_bungus(other_collider, normal)
+    elif other_collider.is_in_group('garbos'):
       on_collision_with_other_garbo(other_collider)
 
 
@@ -47,6 +47,15 @@ func on_turnaround_timeout():
   sprite.flip_h = not sprite.flip_h
   for stacked_garbo in stacked_objects:
     stacked_garbo.toggle_sprite_flip_h()
+
+
+func on_collision_with_bungus(bungus: Bungus, normal: Vector2):
+  if bungus.state == Bungus.State.Launched:
+    bungus.velocity = bungus.previous_velocity.bounce(normal)
+  else:
+    var launch_velocity = normal * 1000.0
+    print(launch_velocity)
+    bungus.apply_launched_state(launch_velocity, 0.3)
 
 
 func on_collision_with_other_garbo(other: Garbo):
