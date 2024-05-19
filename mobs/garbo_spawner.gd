@@ -5,16 +5,15 @@ extends StaticBody2D
 var garbo_scene = preload("res://mobs/garbo.tscn")
 
 func _ready():
-  $GarboSpawnTimer.timeout.connect(spawnGarbo)
+  $GarboSpawnTimer.timeout.connect(spawn_garbo)
   $GarboSpawnTimer.start()
 
 func _process(_dt):
   if $GarboSpawnTimer.is_stopped():
     $GarboSpawnTimer.start()
-    
-    
-func spawnGarbo():
-  var newGarbo: Garbo = garbo_scene.instantiate()
-  newGarbo.position = position
-  get_parent().add_child(newGarbo)
-  pass
+
+
+func spawn_garbo():
+  var new_garbo: Garbo = garbo_scene.instantiate()
+  new_garbo.position = position
+  get_parent().add_child(new_garbo)

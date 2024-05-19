@@ -55,7 +55,7 @@ func on_collision_with_bungus(bungus: Bungus, normal: Vector2):
     bungus.velocity = bungus.previous_velocity.bounce(normal)
   else:
     var launch_velocity = normal * 1000.0
-    print(launch_velocity)
+    # print(launch_velocity)
     bungus.apply_launched_state(launch_velocity, 0.3)
 
 
@@ -81,7 +81,8 @@ func on_collision_with_player(player: Player):
 
 
 func stack_garbo(other: Garbo):
-  other.sprite.modulate = Color.RED
+  # # this can be useful for debugging stacking bugs
+  # other.sprite.modulate = Color.RED
 
   var how_many_garbos_to_add = 1 + other.stacked_objects.size()
   for _i in how_many_garbos_to_add:
