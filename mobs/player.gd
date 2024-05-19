@@ -55,7 +55,7 @@ func _physics_process(dt):
     state_dash_physics_process(dt)
   else:
     push_warning('unhandled state %s' % state)
-    state = State.Free 
+    state = State.Free
   previous_velocity = velocity
 
 
@@ -148,7 +148,7 @@ func state_launched_physics_process(dt):
     elif canwalljump:
       end_launched_state()
       apply_walljump(canwalljump)
-      
+
   if is_on_floor():
     velocity.x = move_toward(velocity.x, 0, decel_floor_launched)
 
@@ -165,9 +165,9 @@ func state_launched_physics_process(dt):
   check_enemy_collision()
 
 
-func state_dash_physics_process(dt):
+func state_dash_physics_process(_dt):
   check_walltouch()
-  
+
   sprite.animation = 'Dash'
   sprite.play()
 
@@ -195,8 +195,8 @@ func check_walltouch():
     justtouchedwall = true
     #TODO: remove walltouch velocity if you leave the wall (or 1 sec until it disappears?)
     walltouch_velocity = previous_velocity
-    print("storing wallhit velocity")
-    print(walltouch_velocity)
+    # print("storing wallhit velocity")
+    # print(walltouch_velocity)
 
   if not can_walljump():
     justtouchedwall = false
@@ -272,7 +272,7 @@ func apply_walljump(dir):
     var min_launch_velocity = (dir * Vector2.LEFT + Vector2.UP) * walljump_strength
     var launch_velocity = min_launch_velocity
     if abs(walltouch_velocity.x) > abs(launch_velocity.x):
-      launch_velocity.x = -walltouch_velocity.x 
+      launch_velocity.x = -walltouch_velocity.x
     velocity.y = 0
 
     apply_launch(launch_velocity, walljump_lockin_time)
@@ -291,7 +291,7 @@ func end_dash_state():
   #print("ENDING DASH STATE")
   dash_cooldown_timer.stop()
   state = State.Free
-  
+
 func end_animation():
   if sprite.animation == "IdleStart":
     sprite.animation = "Idle"

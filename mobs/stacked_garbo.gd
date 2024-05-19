@@ -18,7 +18,7 @@ func set_sprite_flip_h(flipped):
 
 func set_stacked_object(object: Node2D):
   if stacked_object != null:
-    push_warning('you called set_stacked_object on me, but i already had a stacked object')
+    push_error('you called set_stacked_object on me (a stacked garbo), but i already had a stacked object')
   stacked_object = object
   stack_point.add_child(object)
 

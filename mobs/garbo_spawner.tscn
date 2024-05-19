@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://cqjq3lwnk74m6"]
 
-[ext_resource type="Script" path="res://mobs/garbospawner.gd" id="1_5qnge"]
+[ext_resource type="Script" path="res://mobs/garbo_spawner.gd" id="1_5qnge"]
 [ext_resource type="Texture2D" uid="uid://bglra3uuihwk2" path="res://textures/tiles.png" id="2_p2d4k"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ej2wg"]
@@ -20,7 +20,7 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Garbospawner" type="StaticBody2D"]
+[node name="GarboSpawner" type="StaticBody2D"]
 script = ExtResource("1_5qnge")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

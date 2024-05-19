@@ -2,9 +2,9 @@
 
 [ext_resource type="TileSet" uid="uid://cuukt0ibtdfua" path="res://tileset.tres" id="1_gkt0n"]
 [ext_resource type="PackedScene" uid="uid://1cgj7cvtll74" path="res://mobs/player.tscn" id="2_2dbwu"]
-[ext_resource type="PackedScene" uid="uid://cqjq3lwnk74m6" path="res://mobs/garbospawner.tscn" id="3_lreoo"]
+[ext_resource type="PackedScene" uid="uid://cqjq3lwnk74m6" path="res://mobs/garbo_spawner.tscn" id="3_lreoo"]
 
-[node name="Mainlevel" type="Node2D"]
+[node name="MainLevel" type="Node2D"]
 
 [node name="TileMap" type="TileMap" parent="." groups=["wall"]]
 tile_set = ExtResource("1_gkt0n")
@@ -14,5 +14,5 @@ layer_0/tile_data = PackedInt32Array(-720892, 65536, 1, -655356, 65536, 1, -5898
 [node name="Player" parent="." instance=ExtResource("2_2dbwu")]
 position = Vector2(419, -125)
 
-[node name="Garbospawner" parent="." instance=ExtResource("3_lreoo")]
+[node name="GarboSpawner" parent="." instance=ExtResource("3_lreoo")]
 position = Vector2(563, -581)
