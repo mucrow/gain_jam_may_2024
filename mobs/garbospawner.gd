@@ -8,7 +8,7 @@ func _ready():
   $GarboSpawnTimer.timeout.connect(spawnGarbo)
   $GarboSpawnTimer.start()
 
-func _process(delta):
+func _process(_dt):
   if $GarboSpawnTimer.is_stopped():
     $GarboSpawnTimer.start()
     
